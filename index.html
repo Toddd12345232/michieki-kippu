@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7A2E2E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="きっぷ帳">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<title>きっぷ帳</title>
+<style>
+  :root{
+    --bg:#F4F2EE; --card:#fff; --ink:#1d2320; --sub:#66706b; --line:#e3e6e1; --chip:#fff;
+    --brand:#7A2E2E; --brand-soft:#F4E7E4; --ok:#1F7A5A; --ok-soft:#E3F2EB;
+    --amber:#B7791F; --amber-soft:#FBF0DC; --grey:#B9BFBA; --grey-soft:#EEEEEC; --red:#B42318;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121513; --card:#1d2220; --ink:#ECEFED; --sub:#9AA39E; --line:#2c3330; --chip:#1d2220;
+      --brand:#D98A80; --brand-soft:#3a2523; --ok:#5CC49A; --ok-soft:#1b3328;
+      --amber:#E2A64A; --amber-soft:#3a2f1c; --grey:#5d6561; --grey-soft:#2a302d; --red:#F07A6E;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink)}
+  body{font:15px/1.45 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Segoe UI",sans-serif;-webkit-text-size-adjust:100%;
+    padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  button,input,select,textarea{font:inherit;color:inherit}
+  a{color:var(--brand)}
+  .top{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:space-between;
+    padding:calc(8px + env(safe-area-inset-top)) 16px 8px}
+  .top h1{font-size:20px;margin:0}
+  .iconbtn{background:none;border:0;font-size:22px;color:var(--sub);padding:4px 6px;cursor:pointer}
+  .back{background:none;border:0;color:var(--brand);font-size:15px;padding:4px 0;cursor:pointer}
+  main{padding:0 16px 24px;max-width:720px;margin:0 auto}
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+  .tabs button{background:none;border:0;color:var(--sub);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:64px;cursor:pointer}
+  .tabs b{font-size:19px;font-weight:400;line-height:1.2}
+  .tabs .on{color:var(--brand);font-weight:600}
+  .card{background:var(--card);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+  .lbl{font-size:12px;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;margin:14px 2px 6px}
+  .big{font-size:32px;font-weight:700;letter-spacing:-.5px}
+  .big span{font-size:14px;color:var(--sub);font-weight:500;letter-spacing:0}
+  .bar{height:8px;background:var(--grey-soft);border-radius:6px;overflow:hidden;margin:6px 0 2px}
+  .bar i{display:block;height:100%;background:var(--brand);border-radius:6px}
+  .bar.g i{background:var(--ok)}
+  .kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--sub)}
+  .kv.ink{color:var(--ink);font-weight:600;font-size:14px}
+  .row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+  .row:first-child{border-top:0}
+  .dot{width:8px;height:8px;border-radius:50%;margin-top:7px;flex:none;background:var(--amber)}
+  .sub{font-size:13px;color:var(--sub)}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:9px;background:var(--brand-soft);color:var(--brand);vertical-align:1px;font-weight:500}
+  .tag.ok{background:var(--ok-soft);color:var(--ok)} .tag.am{background:var(--amber-soft);color:var(--amber)} .tag.no{background:var(--grey-soft);color:var(--sub)}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{font-size:13px;padding:5px 11px;border-radius:15px;background:var(--chip);border:1px solid var(--line);white-space:nowrap;cursor:pointer}
+  .chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .search{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 11px;margin-bottom:8px}
+  .st{background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;text-align:left;border:0}
+  .st .nm{font-weight:600}
+  .st .hr{font-size:12.5px;color:var(--sub)}
+  .st.dim{opacity:.6}
+  .chev{color:var(--grey);font-size:20px;margin-left:auto;flex:none}
+  .mini{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+  .mini span{font-size:11px;padding:0 6px;border-radius:4px;background:var(--grey-soft);color:var(--sub)}
+  .mini span.on{background:var(--ok-soft);color:var(--ok)}
+  .open{color:var(--ok);font-weight:600} .closed{color:var(--red);font-weight:600}
+  .info div.r{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+  .info div.r:first-child{border-top:0}
+  .info b{width:64px;color:var(--sub);font-weight:500;flex:none}
+  .btn{display:inline-block;margin-top:8px;font-size:14px;padding:8px 12px;border-radius:10px;background:var(--brand-soft);color:var(--brand);font-weight:600;border:0;cursor:pointer;text-decoration:none}
+  .btn.solid{background:var(--brand);color:#fff}
+  .btn.wide{display:block;width:100%;text-align:center}
+  .ck{padding:10px 0;border-top:1px solid var(--line)}
+  .ck:first-child{border-top:0}
+  .ck label{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+  .ck input[type=checkbox]{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--grey);flex:none;margin:0;display:grid;place-content:center;background:var(--card)}
+  .ck input[type=checkbox]:checked{background:var(--ok);border-color:var(--ok)}
+  .ck input[type=checkbox]:checked::after{content:"✓";color:#fff;font-size:16px;font-weight:700}
+  .ck .t{font-weight:600}
+  .ck.dim .t{color:var(--sub)}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 0 38px}
+  .fields .full{grid-column:1/-1}
+  .fields label{display:block;font-size:12px;color:var(--sub)}
+  .fields input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:2px}
+  .linkbtn{background:none;border:0;color:var(--sub);font-size:12.5px;text-decoration:underline;padding:4px 0 0 38px;cursor:pointer}
+  .empty{color:var(--sub);text-align:center;padding:40px 10px}
+  .note{background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:10px 12px;margin:0 0 10px;font-size:13.5px}
+  .notice{font-size:13px;white-space:pre-line}
+  .sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center}
+  .sheet[hidden]{display:none}
+  .sheet-card{background:var(--bg);width:100%;max-width:720px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:14px 16px calc(20px + env(safe-area-inset-bottom))}
+  .sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .sheet-head b{font-size:18px}
+  .set{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .switch{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:14px;background:var(--grey);position:relative;flex:none;cursor:pointer;margin:0}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+  .switch:checked{background:var(--ok)} .switch:checked::after{left:21px}
+  #toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);
+    padding:8px 14px;border-radius:10px;font-size:14px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+  #toast.show{opacity:.95}
+  #map{height:calc(100vh - 290px);min-height:300px;border-radius:14px;overflow:hidden;background:var(--grey-soft)}
+  .leaflet-popup-content{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;margin:10px 12px}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--sub);margin:8px 2px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+  .sp .when{font-weight:600}
+  .sp p{margin:3px 0;font-size:13.5px}
+  .more{display:block;margin:6px auto 0;background:none;border:0;color:var(--brand);font-weight:600;cursor:pointer}
+  select.search{appearance:auto}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 id="title">きっぷ帳</h1>
+  <button class="iconbtn" id="menuBtn" data-i18n-aria="settings">☰</button>
+</header>
+<main id="view"></main>
+<nav class="tabs" id="tabs">
+  <button data-tab="home"><b>◎</b><span data-i18n="tab_home"></span></button>
+  <button data-tab="stations"><b>☰</b><span data-i18n="tab_stations"></span></button>
+  <button data-tab="map"><b>⌖</b><span data-i18n="tab_map"></span></button>
+  <button data-tab="specials"><b>✦</b><span data-i18n="tab_specials"></span></button>
+</nav>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-card">
+    <div class="sheet-head"><b id="sheetTitle"></b><button class="iconbtn" id="sheetClose" data-i18n-aria="close">✕</button></div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<div id="toast"></div>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="logic.js"></script>
+<script>
+"use strict";
+const APP_VERSION = 1;
+const DEFAULT_DATA_URL = "https://raw.githubusercontent.com/Toddd12345232/michieki-kippu/data/data.json";
+const APT_SPECIALS_URL = "https://www.a-pt.co.jp/%E7%89%B9%E5%88%A5%E8%A8%98%E5%BF%B5%E3%81%8D%E3%81%A3%E3%81%B7-%E9%85%8D%E5%B8%83%E6%96%B9%E6%B3%95/";
+const DATA_CACHE = "kippu-data";
+const params = new URLSearchParams(location.search);
+const DATA_URL = params.get("data") ? new URL(params.get("data"), location.href).href : DEFAULT_DATA_URL;
+
+// ---------- text ----------
+const EN = {
+  settings: "Settings", close: "Close", back: "Back",
+  tab_home: "Home", tab_stations: "Stations", tab_map: "Map", tab_specials: "Specials",
+  kippu: "記念きっぷ", shitei: "{region} 指定券", card: "{region} 道の駅カード", special: "特別記念きっぷ",
+  of_selling: "of {n} selling stations", this_year: "This year: {n}", prefs_count: "Prefectures: {n} / 47",
+  collected: "{n} collected", special_tickets: "Special tickets", by_region: "By region", more_specials: "+ {n} more",
+  no_specials_soon: "No special tickets in the next 30 days.", all_japan: "All Japan",
+  today: "Today", tomorrow: "Tomorrow", on_now: "On now",
+  no_data: "Station info will appear after the first update. Check your connection, then reopen the app.",
+  loading: "Loading station info…",
+  stale: "Station info last updated {n} days ago. It may be out of date.",
+  updated_ago: "Updated {when}", updated_today: "today", updated_days: "{n} days ago", updated_1day: "yesterday",
+  search: "Search a station…", pref_line: "{pref} · {sell} selling · you have {have}", choose_pref: "Choose a prefecture above.",
+  no_match: "No stations match.",
+  open_now: "Open", closed_now: "Closed", closed_days: "closed {days}",
+  special_tag: "special", special_soon: "special {when}", no_kippu: "no 記念きっぷ", no_coords: "not on the map yet",
+  hours: "Hours", closed_lbl: "Closed", phone: "Phone", address: "Address", open_in_maps: "Open in Maps",
+  hours_unknown: "Not listed", what_i_got: "What I got here", notices: "Notices from a-pt",
+  sold_all_kyushu: "Sold at every 九州・沖縄 station", sold_here: "Sold here", not_sold_now: "Not sold now: {raw}",
+  date: "Date", ticket_no: "Ticket No.", note: "Note", not_listed_now: "No longer listed by a-pt",
+  gone_station: "No longer listed on michieki.jp. Your ticks are kept.", gone_tag: "no longer listed", not_sold_here: "Not sold here", undo_not_sold: "Sold here after all",
+  marked_not_sold: "Marked as not sold here. It's left out of your progress.",
+  confirm_untick: "Untick this? The ticket number and note will be deleted.",
+  add_special: "Add a special ticket by hand", special_name: "Ticket name", add: "Add", my_special: "added by me",
+  remove: "Remove", confirm_remove: "Remove this special ticket?",
+  from_when: "From {date}", until_gone: "until gone", ended_on: "配布終了 {date}",
+  mail: "Mail", phone_q: "Phone", ok: "OK", ng: "NG",
+  map_all: "All", map_todo: "Not yet", map_specials: "Specials", map_open: "Open now",
+  legend_got: "Got it", legend_todo: "Not yet", legend_special: "Special ticket on", legend_none: "No 記念きっぷ",
+  map_offline: "The map needs signal. Everything else works offline.", my_location: "📍 Me", no_location: "Location isn't available.",
+  open_station: "Open station ›", pins: "{n} stations on the map",
+  sp_on: "On now", sp_upcoming: "Upcoming", sp_past: "Ended or past", show_more: "Show more", apt_page: "a-pt's special ticket page",
+  sp_none: "Nothing here right now.", all_prefs: "All prefectures",
+  cards_setting: "Collect 道の駅カード too", cards_hint: "Adds the 長野・愛知・三重・静岡 cards and the Shikoku 記念カード.",
+  quick_add: "Quick add past tickets", quick_add_hint: "Tick tickets you already have. Dates can be added later on each station page.",
+  backup: "Backup", export: "Export backup", import: "Import backup",
+  backup_exported: "Backup saved.", backup_downloads: "Backup saved to Downloads.",
+  imported: "Imported. {n} added.", import_bad: "That file isn't a きっぷ帳 backup.",
+  orphans: "Ticks for stations not found", orphans_hint: "These stations are no longer in the station list. Your ticks are kept.",
+  data_dates: "Station info", src_michieki: "Station list and map (michieki.jp)", src_details: "Opening hours (michieki.jp)", src_apt_status: "Selling status (a-pt)",
+  src_apt_specials: "Special tickets (a-pt)", src_apt_notices: "Notices (a-pt)", src_chubu: "Chubu 指定券 lists",
+  never: "not yet", app_version: "App version {n}", save_failed: "Couldn't save on this phone. Free some space and try again.",
+};
+function t(key, vars){
+  let s = EN[key] != null ? EN[key] : key;
+  if (vars) for (const k in vars) s = s.split("{" + k + "}").join(vars[k]);
+  return s;
+}
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const $ = sel => document.querySelector(sel);
+
+// ---------- storage ----------
+const DEFAULT_SETTINGS = { tab: "home", cards: false, block: null, pref: null, notSold: [], mapFilter: "all", mapView: null, spBlock: null, spPref: null };
+function load(key, fallback){
+  let raw = null;
+  try { raw = localStorage.getItem(key); } catch(e){ return fallback; }
+  if (raw == null) return fallback;
+  try { return JSON.parse(raw); }
+  catch(e){
+    // never write over something we can't read: keep a copy before starting fresh
+    try { localStorage.setItem(key + ".unreadable", raw); } catch(_){}
+    return fallback;
+  }
+}
+const state = {
+  ticks: load("kippu.ticks", []),
+  custom: load("kippu.custom", []),
+  settings: Object.assign({}, DEFAULT_SETTINGS, load("kippu.settings", {})),
+  data: null, idx: K.indexStations([]), loaded: false, station: null, spMore: 0,
+};
+if (!Array.isArray(state.ticks)) state.ticks = [];
+if (!Array.isArray(state.custom)) state.custom = [];
+function save(){
+  try {
+    localStorage.setItem("kippu.ticks", JSON.stringify(state.ticks));
+    localStorage.setItem("kippu.custom", JSON.stringify(state.custom));
+    localStorage.setItem("kippu.settings", JSON.stringify(state.settings));
+  } catch(e){ toast(t("save_failed")); }
+}
+
+let toastTimer;
+function toast(msg){
+  const el = $("#toast"); el.textContent = msg; el.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+}
+
+// ---------- station data ----------
+function setData(d){
+  state.data = d;
+  state.idx = K.indexStations(d ? d.stations : []);
+  if (!d) return;
+  // move ticks saved against an old station id to the station's current id
+  const ticks = K.canonicalTicks(state.idx, state.ticks);
+  const custom = state.custom.map(c => { const st = K.resolveStation(state.idx, c.st); return st && st.id !== c.st ? Object.assign({}, c, { st: st.id }) : c; });
+  if (JSON.stringify(ticks) !== JSON.stringify(state.ticks) || JSON.stringify(custom) !== JSON.stringify(state.custom)){
+    state.ticks = ticks; state.custom = custom; save();
+  }
+}
+async function cachedData(){
+  try { const r = await (await caches.open(DATA_CACHE)).match(DATA_URL); return r ? await r.json() : null; }
+  catch(e){ return null; }
+}
+async function freshData(){
+  try {
+    const r = await fetch(DATA_URL, { cache: "no-cache" });
+    if (!r.ok) return null;
+    const text = await r.text(), d = JSON.parse(text);
+    if (K.pickData(d, null)){
+      try { await (await caches.open(DATA_CACHE)).put(DATA_URL, new Response(text, { headers: { "Content-Type": "application/json" } })); } catch(e){}
+    }
+    return d;
+  } catch(e){ return null; }
+}
+let lastFetch = 0;
+// Redraw, unless the user is typing on the screen: then wait until they leave the field.
+function safeRender(){
+  const a = document.activeElement;
+  if (a && a.matches && a.matches("#view input")){ state.pendingRender = true; return; }
+  render();
+}
+async function loadData(){
+  if (!state.data){ setData(K.pickData(await cachedData(), null)); if (state.data) safeRender(); }
+  lastFetch = Date.now();
+  const pick = K.pickData(await freshData(), state.data);
+  const changed = pick !== state.data;
+  if (changed) setData(pick);
+  const wasLoading = !state.loaded;
+  state.loaded = true;
+  if (changed || (wasLoading && !state.data)) safeRender();
+}
+function daysSince(iso){ return iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86400000) : null; }
+function agoText(iso){
+  const n = daysSince(iso);
+  if (n == null) return t("never");
+  return n <= 0 ? t("updated_today") : n === 1 ? t("updated_1day") : t("updated_days", { n });
+}
+
+// ---------- helpers shared by screens ----------
+const today = () => K.jst(new Date()).ymd;
+const prefName = code => K.PREFS[code - 1] || "";
+const prefShort = code => prefName(code).replace(/[都府県]$/, "") || prefName(code);
+const regionLabel = (list, key) => (list.find(r => r.key === key) || {}).label || key;
+function findTick(st, k, r, sp){
+  return state.ticks.find(x => x.st === st && x.k === k && (k === "special" ? x.sp === sp : (x.r || "") === (r || "")));
+}
+
+// ---------- screens ----------
+const pct = (have, total) => (total ? Math.max(have ? 2 : 0, Math.round(have / total * 100)) : 0);
+function fmtDate(ymd){
+  if (!ymd) return "";
+  const [y, m, d] = ymd.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+}
+function whenLabel(sp){
+  const td = today();
+  if (K.specialWindow(sp, td) === "on") return t("on_now");
+  return sp.start === K.addDays(td, 1) ? t("tomorrow") : fmtDate(sp.start);
+}
+const short = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + "…" : s || "");
+const stationById = id => K.resolveStation(state.idx, id);
+function bar(label, v, cls){
+  return `<div class="kv ink" style="margin-top:10px"><span>${esc(label)}</span><span>${v.have} / ${v.total}</span></div>
+    <div class="bar ${cls || ""}"><i style="width:${pct(v.have, v.total)}%"></i></div>`;
+}
+function blockChips(attr, current, withAll){
+  return `<div class="chips">${withAll ? `<button class="chip ${!current ? "on" : ""}" data-${attr}="">${esc(t("all_japan"))}</button>` : ""}${
+    K.BLOCKS.map(b => `<button class="chip ${current === b.key ? "on" : ""}" data-${attr}="${b.key}">${esc(b.label)}</button>`).join("")}</div>`;
+}
+function specialsAt(id){ return (state.data.specials || []).filter(sp => sp.st === id); }
+function liveSpecial(id){
+  const td = today();
+  return specialsAt(id).map(sp => ({ sp, w: K.specialWindow(sp, td) })).filter(x => x.w === "on" || x.w === "upcoming")
+    .sort((a, b) => (a.sp.start < b.sp.start ? -1 : 1))[0] || null;
+}
+
+function renderHome(){
+  const d = state.data, s = state.settings;
+  const p = K.progress(d, state.ticks, { cards: s.cards, notSold: s.notSold });
+  const sps = K.upcomingSpecials(d.specials, today(), { block: s.spBlock });
+  const spRows = sps.slice(0, 3).map(sp => `<button class="row" style="width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer;padding-left:0;padding-right:0"
+      ${sp.st ? `data-open="${esc(sp.st)}"` : `data-go="specials"`}><span class="dot"></span><div><b>${esc(whenLabel(sp))} · ${esc(sp.station || "")}</b>
+      <span class="sub">(${esc(prefShort(K.prefCode(sp.pref)))})</span><br><span class="sub">${esc(short([sp.name, sp.cond].filter(Boolean).join(" · "), 70))}</span></div></button>`).join("");
+  const blocks = K.BLOCKS.filter(b => p.blocks[b.key].total > 0)
+    .map(b => `<button style="display:block;width:100%;background:none;border:0;padding:0;text-align:left;cursor:pointer" data-go="stations" data-block="${b.key}">${bar(b.label, p.blocks[b.key])}</button>`).join("");
+  return `
+    <div class="card">
+      <div class="lbl" style="margin:0 0 2px">${esc(t("kippu"))}</div>
+      <div class="big">${p.kippu.have} <span>${esc(t("of_selling", { n: p.kippu.total.toLocaleString("en") }))}</span></div>
+      <div class="bar"><i style="width:${pct(p.kippu.have, p.kippu.total)}%"></i></div>
+      <div class="kv"><span>${esc(t("this_year", { n: p.year }))}</span><span>${esc(t("prefs_count", { n: p.prefs }))}</span></div>
+    </div>
+    <div class="card">
+      ${K.REGIONS_SHITEI.filter(r => p.shitei[r.key].total).map(r => bar(t("shitei", { region: r.label }), p.shitei[r.key], "g")).join("")}
+      ${s.cards ? K.REGIONS_CARD.filter(r => p.cards[r.key].total).map(r => bar(t("card", { region: r.label }), p.cards[r.key], "g")).join("") : ""}
+      <div class="kv ink" style="margin-top:12px"><span>${esc(t("special"))}</span><span>${esc(t("collected", { n: p.specials }))}</span></div>
+    </div>
+    <div class="lbl">${esc(t("special_tickets"))}</div>
+    ${blockChips("spblock", s.spBlock, true)}
+    <div class="card" style="padding-top:4px;padding-bottom:4px">${spRows || `<p class="sub">${esc(t("no_specials_soon"))}</p>`}
+      ${sps.length > 3 ? `<button class="more" data-go="specials">${esc(t("more_specials", { n: sps.length - 3 }))}</button>` : ""}</div>
+    <div class="lbl">${esc(t("by_region"))}</div>
+    <div class="card">${blocks}</div>`;
+}
+
+function offered(st){
+  const s = state.settings, out = [];
+  out.push({ k: "kippu", r: "", label: "きっぷ" });
+  for (const r of st.shitei || []) out.push({ k: "shitei", r, label: "指定券" + (r === "kyushu" ? "" : "·" + regionLabel(K.REGIONS_SHITEI, r)) });
+  if (s.cards) for (const r of st.cards || []) out.push({ k: "card", r, label: "カード" });
+  return out;
+}
+function hoursLine(st){
+  const os = K.openState(st.sched, new Date()), bits = [];
+  if (os) bits.push(`<span class="${os}">${esc(t(os === "open" ? "open_now" : "closed_now"))}</span>`);
+  if (st.hours) bits.push(esc(short(st.hours, 34)));
+  if (st.closed) bits.push(esc(t("closed_days", { days: short(st.closed, 22) })));
+  return bits.join(" · ");
+}
+function stationRow(st){
+  const s = state.settings, live = liveSpecial(st.id), sell = K.selling(st);
+  const chips = offered(st).filter(o => o.k !== "kippu" || sell || findTick(st.id, "kippu"))
+    .filter(o => o.k !== "shitei" || !s.notSold.includes(`${st.id}:${o.r}`) || findTick(st.id, "shitei", o.r))
+    .map(o => { const on = !!findTick(st.id, o.k, o.r); return `<span class="${on ? "on" : ""}">${esc(o.label)}${on ? " ✓" : ""}</span>`; }).join("");
+  const tags = (live ? ` <span class="tag am">${esc(live.w === "on" ? t("special_tag") : t("special_soon", { when: whenLabel(live.sp) }))}</span>` : "") +
+    (!sell ? ` <span class="tag no">${esc(t("no_kippu"))}</span>` : "") + (st.gone ? ` <span class="tag no">${esc(t("gone_tag"))}</span>` : "");
+  return `<button class="st ${sell ? "" : "dim"}" data-open="${esc(st.id)}"><div style="min-width:0">
+    <div class="nm">${esc(st.name)}${tags}</div>
+    <div class="hr">${hoursLine(st) || (st.apt && !sell ? esc(st.apt.raw) : "")}</div>
+    <div class="mini">${chips}</div></div><span class="chev">›</span></button>`;
+}
+function sortStations(list){
+  return list.slice().sort((a, b) => (K.selling(b) - K.selling(a)) || (a.yomi || a.name).localeCompare(b.yomi || b.name, "ja"));
+}
+function stationList(){
+  const d = state.data, s = state.settings, q = (state.query || "").trim();
+  if (q){
+    const n = q.toLowerCase();
+    const hits = d.stations.filter(st => st.name.toLowerCase().includes(n) || (st.yomi || "").includes(q));
+    return hits.length ? sortStations(hits).slice(0, 80).map(stationRow).join("") : `<p class="empty">${esc(t("no_match"))}</p>`;
+  }
+  const list = d.stations.filter(st => st.pref === s.pref);
+  const have = list.filter(st => findTick(st.id, "kippu")).length;
+  return `<div class="lbl">${esc(t("pref_line", { pref: prefName(s.pref), sell: list.filter(K.selling).length, have }))}</div>` +
+    sortStations(list).map(stationRow).join("");
+}
+function renderStations(){
+  const d = state.data, s = state.settings;
+  const block = s.block || K.blockOf(s.pref) || "kyushu";
+  const prefs = K.BLOCKS.find(b => b.key === block).prefs.filter(p => d.stations.some(x => x.pref === p));
+  if (!prefs.includes(s.pref)) s.pref = prefs[0];
+  s.block = block;
+  return `${blockChips("block", block, false)}
+    <div class="chips">${prefs.map(p => `<button class="chip ${p === s.pref ? "on" : ""}" data-pref="${p}">${esc(prefShort(p))}</button>`).join("")}</div>
+    <input class="search" id="stSearch" type="search" placeholder="${esc(t("search"))}" value="${esc(state.query || "")}">
+    <div id="stList">${stationList()}</div>`;
+}
+
+function tickRow(st, o, title, sub, extra){
+  const tk = findTick(st.id, o.k, o.r, o.sp), key = [o.k, o.r || "", o.sp || ""].join("|");
+  const fields = tk ? `<div class="fields">
+      <label>${esc(t("date"))}<input type="date" data-field="d" data-tid="${esc(tk.id)}" value="${esc(tk.d || "")}"></label>
+      <label>${esc(t("ticket_no"))}<input inputmode="numeric" data-field="no" data-tid="${esc(tk.id)}" value="${esc(tk.no || "")}"></label>
+      <label class="full">${esc(t("note"))}<input data-field="note" data-tid="${esc(tk.id)}" value="${esc(tk.note || "")}"></label></div>` : "";
+  return `<div class="ck ${extra && extra.dim ? "dim" : ""}"><label><input type="checkbox" data-tick="${esc(key)}" ${tk ? "checked" : ""}>
+    <div><div class="t">${title}</div><div class="sub">${sub}</div></div></label>${fields}${(extra && extra.after) || ""}</div>`;
+}
+function renderStation(id){
+  const st = stationById(id), s = state.settings;
+  if (!st) return `<button class="back" data-back>‹ ${esc(t("back"))}</button><p class="empty">${esc(t("orphans_hint"))}</p>`;
+  const town = ((st.addr || "").replace(/^.+?[都道府県]/, "").match(/^(?:.+?郡)?(.+?[市区町村])/) || [])[1] || "";
+  const os = K.openState(st.sched, new Date());
+  const maps = st.lat != null ? `https://maps.apple.com/?q=${encodeURIComponent("道の駅 " + st.name)}&ll=${st.lat},${st.lng}`
+    : `https://maps.apple.com/?q=${encodeURIComponent(st.addr || "道の駅 " + st.name)}`;
+  const year = new Date(Date.now() - 365 * 86400000).toISOString().slice(0, 10);
+  const notices = (state.data.notices || []).filter(n => n.st === st.id && n.date >= year);
+  const sell = K.selling(st), shown = new Set();
+  const row = (o, ...rest) => { shown.add(K.tickKey(Object.assign({ st: st.id }, o))); return tickRow(st, o, ...rest); };
+  const aptNote = st.apt && st.apt.raw && st.apt.raw !== "販売中" ? st.apt.raw : "";
+  const rows = [row({ k: "kippu" }, esc(t("kippu")),
+    esc(sell ? [t("sold_here"), aptNote].filter(Boolean).join(" · ") : t("not_sold_now", { raw: st.apt ? st.apt.raw : t("no_kippu") })), { dim: !sell })];
+  for (const r of st.shitei || []){
+    const off = s.notSold.includes(`${st.id}:${r}`), tk = findTick(st.id, "shitei", r);
+    const link = tk ? "" : `<button class="linkbtn" data-notsold="${esc(r)}">${esc(off ? t("undo_not_sold") : t("not_sold_here"))}</button>`;
+    rows.push(row({ k: "shitei", r }, esc(t("shitei", { region: regionLabel(K.REGIONS_SHITEI, r) })),
+      esc(off && !tk ? t("marked_not_sold") : r === "kyushu" ? t("sold_all_kyushu") : t("sold_here")), { dim: off && !tk, after: link }));
+  }
+  if (s.cards) for (const r of st.cards || []) rows.push(row({ k: "card", r }, esc(t("card", { region: regionLabel(K.REGIONS_CARD, r) })), esc(t("sold_here"))));
+  for (const sp of specialsAt(st.id).sort((a, b) => (a.posted < b.posted ? 1 : -1))){
+    const sub = [sp.when, sp.cond].filter(Boolean).join(" · ") + (sp.ended ? " · " + t("ended_on", { date: sp.ended }) : "");
+    rows.push(row({ k: "special", sp: sp.id }, `${esc(sp.name || t("special"))} <span class="tag am">${esc(t("special_tag"))}</span>`, esc(sub)));
+  }
+  for (const c of state.custom.filter(c => c.st === st.id)){
+    rows.push(row({ k: "special", sp: c.id }, `${esc(c.name)} <span class="tag am">${esc(t("my_special"))}</span>`, esc(c.date ? fmtDate(c.date) : ""),
+      { after: `<button class="linkbtn" data-rmcustom="${esc(c.id)}">${esc(t("remove"))}</button>` }));
+  }
+  for (const tk of K.uncoveredTicks(state.ticks, st.id, shown)){
+    const title = tk.k === "special" ? `${esc(tk.nm || t("special"))} <span class="tag am">${esc(t("special_tag"))}</span>`
+      : tk.k === "card" ? esc(t("card", { region: regionLabel(K.REGIONS_CARD, tk.r) }))
+      : tk.k === "shitei" ? esc(t("shitei", { region: regionLabel(K.REGIONS_SHITEI, tk.r) })) : esc(t("kippu"));
+    rows.push(tickRow(st, { k: tk.k, r: tk.r, sp: tk.sp }, title, esc([tk.when ? fmtDate(tk.when) : "", t("not_listed_now")].filter(Boolean).join(" · "))));
+  }
+  return `<button class="back" data-back>‹ ${esc(prefName(st.pref))}</button>
+    <div style="padding:4px 2px 10px"><div class="sub">${esc([st.yomi, town].filter(Boolean).join(" · "))}</div>
+      <h2 style="margin:0;font-size:22px">道の駅 ${esc(st.name)}</h2></div>
+    ${st.gone ? `<div class="note">${esc(t("gone_station"))}</div>` : ""}
+    <div class="card info">
+      <div class="r"><b>${esc(t("hours"))}</b><span>${os ? `<span class="${os}">${esc(t(os === "open" ? "open_now" : "closed_now"))}</span> · ` : ""}${esc(st.hours || t("hours_unknown"))}</span></div>
+      <div class="r"><b>${esc(t("closed_lbl"))}</b><span>${esc(st.closed || t("hours_unknown"))}</span></div>
+      ${st.tel ? `<div class="r"><b>${esc(t("phone"))}</b><a href="tel:${esc(st.tel.replace(/[^\d+]/g, ""))}">${esc(st.tel)}</a></div>` : ""}
+      ${st.addr ? `<div class="r"><b>${esc(t("address"))}</b><span>${esc(st.addr)}</span></div>` : ""}
+      <a class="btn" href="${esc(maps)}" target="_blank" rel="noopener">${esc(t("open_in_maps"))}</a>
+      ${st.lat == null ? `<span class="sub"> · ${esc(t("no_coords"))}</span>` : ""}
+    </div>
+    ${notices.length ? `<div class="lbl">${esc(t("notices"))}</div>${notices.map(n => `<div class="note notice"><b>${esc(n.date)}</b>\n${esc(n.text)}</div>`).join("")}` : ""}
+    <div class="lbl">${esc(t("what_i_got"))}</div>
+    <div class="card" style="padding-top:2px;padding-bottom:2px">${rows.join("")}</div>
+    <div class="lbl">${esc(t("add_special"))}</div>
+    <div class="card fields" style="margin:0 0 10px;grid-template-columns:2fr 1fr auto;align-items:end">
+      <label>${esc(t("special_name"))}<input id="cName"></label>
+      <label>${esc(t("date"))}<input id="cDate" type="date" value="${esc(today())}"></label>
+      <button class="btn" data-addsp style="margin:0">${esc(t("add"))}</button></div>`;
+}
+let map = null;
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function pinKind(st){
+  if (liveSpecial(st.id)) return "special";
+  if (findTick(st.id, "kippu")) return "got";
+  return K.selling(st) ? "todo" : "none";
+}
+function passFilter(st, f, now){
+  if (f === "todo") return K.selling(st) && !findTick(st.id, "kippu");
+  if (f === "specials") return !!liveSpecial(st.id);
+  if (f === "open") return K.openState(st.sched, now) === "open";
+  return true;
+}
+function popupHtml(st){
+  const live = liveSpecial(st.id);
+  return `<b>道の駅 ${esc(st.name)}</b><br>${hoursLine(st) || esc(st.hours || "")}` +
+    (live ? `<br><span style="color:${cssVar("--amber")}">${esc(t("special_tag"))} · ${esc(whenLabel(live.sp))} · ${esc(short(live.sp.name || "", 30))}</span>` : "") +
+    `<br><a href="#" data-popup-open="${esc(st.id)}">${esc(t("open_station"))}</a>`;
+}
+function renderMap(){
+  const f = state.settings.mapFilter || "all";
+  const chip = (key, label) => `<button class="chip ${f === key ? "on" : ""}" data-mapfilter="${key}">${esc(t(label))}</button>`;
+  return `<div class="chips">${chip("all", "map_all")}${chip("todo", "map_todo")}${chip("specials", "map_specials")}${chip("open", "map_open")}</div>
+    <div id="map"></div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>${esc(t("legend_got"))}</span><span><i style="background:var(--brand)"></i>${esc(t("legend_todo"))}</span>
+      <span><i style="background:var(--amber)"></i>${esc(t("legend_special"))}</span><span><i style="background:var(--grey)"></i>${esc(t("legend_none"))}</span></div>
+    <div class="kv"><span id="pinCount"></span><button class="btn" style="margin:0" data-locate>${esc(t("my_location"))}</button></div>
+    <p class="sub" id="mapNote"></p>`;
+}
+function initMap(){
+  const el = $("#map");
+  if (!el || !window.L) return;
+  const s = state.settings, v = s.mapView || [36.4, 137.6, 5];
+  map = L.map(el, { preferCanvas: true }).setView([v[0], v[1]], v[2]);
+  const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "© OpenStreetMap contributors" }).addTo(map);
+  let tileErrors = 0;
+  tiles.on("tileerror", () => { if (++tileErrors === 3) $("#mapNote").textContent = t("map_offline"); });
+  const colors = { got: cssVar("--ok"), todo: cssVar("--brand"), special: cssVar("--amber"), none: cssVar("--grey") };
+  const now = new Date(), f = s.mapFilter || "all";
+  let n = 0;
+  for (const st of state.data.stations){
+    if (st.lat == null || !passFilter(st, f, now)) continue;
+    L.circleMarker([st.lat, st.lng], { radius: 7, weight: 1.5, color: "#fff", fillColor: colors[pinKind(st)], fillOpacity: 0.95 })
+      .bindPopup(() => popupHtml(st)).addTo(map);
+    n++;
+  }
+  $("#pinCount").textContent = t("pins", { n });
+  // Leaflet keeps clicks inside popups to itself, so wire the link here
+  map.on("popupopen", e => {
+    const a = e.popup.getElement().querySelector("[data-popup-open]");
+    if (a) a.onclick = ev => { ev.preventDefault(); openStation(a.dataset.popupOpen); };
+  });
+  map.on("moveend", () => { const c = map.getCenter(); s.mapView = [+c.lat.toFixed(4), +c.lng.toFixed(4), map.getZoom()]; save(); });
+}
+function locate(){
+  if (!navigator.geolocation || !map){ toast(t("no_location")); return; }
+  navigator.geolocation.getCurrentPosition(pos => {
+    if (!map) return;
+    const ll = [pos.coords.latitude, pos.coords.longitude];
+    L.circleMarker(ll, { radius: 8, weight: 3, color: "#fff", fillColor: "#2F6FDB", fillOpacity: 1 }).addTo(map);
+    map.setView(ll, Math.max(map.getZoom(), 10));
+  }, () => toast(t("no_location")), { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
+}
+
+function spCard(sp){
+  const st = sp.st ? stationById(sp.st) : null, mine = !!findTick(sp.st, "special", null, sp.id);
+  const station = st ? `<button class="back" style="padding:0;font-weight:600" data-open="${esc(st.id)}">${esc(sp.station || st.name)}</button>`
+    : `<b>${esc(sp.station || "")}</b>`;
+  const facts = [sp.limit, sp.mail && `${t("mail")} ${sp.mail}`, sp.phone && `${t("phone_q")} ${sp.phone}`].filter(Boolean).join(" · ");
+  return `<div class="card sp">
+    <div class="when">${esc(sp.start ? fmtDate(sp.start) : "")}${sp.end && sp.end !== sp.start ? " – " + esc(fmtDate(sp.end)) : ""}
+      ${sp.ended ? ` <span class="tag no">${esc(t("ended_on", { date: sp.ended }))}</span>` : ""}${mine ? ` <span class="tag ok">✓</span>` : ""}</div>
+    <div>${station} <span class="sub">(${esc(prefShort(K.prefCode(sp.pref)))})</span></div>
+    ${sp.name ? `<p>${esc(sp.name)}</p>` : ""}
+    ${sp.when ? `<p class="sub">${esc(sp.when)}</p>` : ""}
+    ${sp.cond ? `<p class="sub">${esc(sp.cond)}</p>` : ""}
+    ${facts ? `<p class="sub">${esc(facts)}</p>` : ""}
+    ${(sp.extra || []).slice(0, 4).map(x => `<p class="sub">${esc(x)}</p>`).join("")}</div>`;
+}
+function renderSpecials(){
+  const s = state.settings, td = today();
+  const inBlock = (state.data.specials || []).filter(sp => !s.spBlock || K.blockOf(K.prefCode(sp.pref)) === s.spBlock);
+  const prefs = s.spBlock ? [...new Set(inBlock.map(sp => K.prefCode(sp.pref)).filter(Boolean))].sort((a, b) => a - b) : [];
+  if (!prefs.includes(s.spPref)) s.spPref = null;
+  const list = inBlock.filter(sp => !s.spPref || K.prefCode(sp.pref) === s.spPref).map(sp => ({ sp, w: K.specialWindow(sp, td) }));
+  const byStart = (a, b) => ((a.sp.start || "") < (b.sp.start || "") ? -1 : 1);
+  const on = list.filter(x => x.w === "on").sort(byStart), up = list.filter(x => x.w === "upcoming").sort(byStart);
+  const rest = list.filter(x => x.w === "past" || x.w === "ended").sort((a, b) => (a.sp.posted < b.sp.posted ? 1 : -1));
+  const cap = 100 + state.spMore;
+  const section = (label, items) => `<div class="lbl">${esc(t(label))}</div>` +
+    (items.length ? items.map(x => spCard(x.sp)).join("") : `<p class="sub">${esc(t("sp_none"))}</p>`);
+  return `${blockChips("spblock", s.spBlock, true)}
+    ${prefs.length > 1 ? `<div class="chips"><button class="chip ${!s.spPref ? "on" : ""}" data-sppref="">${esc(t("all_prefs"))}</button>${
+      prefs.map(p => `<button class="chip ${s.spPref === p ? "on" : ""}" data-sppref="${p}">${esc(prefShort(p))}</button>`).join("")}</div>` : ""}
+    ${section("sp_on", on)}${section("sp_upcoming", up)}${section("sp_past", rest.slice(0, cap))}
+    ${rest.length > cap ? `<button class="more" data-spmore>${esc(t("show_more"))}</button>` : ""}
+    <p style="text-align:center"><a href="${APT_SPECIALS_URL}" target="_blank" rel="noopener">${esc(t("apt_page"))}</a></p>`;
+}
+function afterRender(){
+  if (map){ map.remove(); map = null; }
+  if (!state.station && state.data && state.settings.tab === "map") initMap();
+}
+// ---------- end screens ----------
+
+function render(){
+  state.pendingRender = false;
+  const tab = state.settings.tab;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  const view = $("#view");
+  if (state.station){
+    $("#title").textContent = "きっぷ帳";
+    view.innerHTML = renderStation(state.station);
+  } else if (!state.data){
+    $("#title").textContent = "きっぷ帳";
+    view.innerHTML = `<div class="empty">${esc(state.loaded ? t("no_data") : t("loading"))}</div>`;
+  } else {
+    $("#title").textContent = tab === "home" ? "きっぷ帳" : t("tab_" + tab);
+    const stale = daysSince(state.data.built);
+    view.innerHTML = (stale != null && stale > 3 ? `<div class="note">${esc(t("stale", { n: stale }))}</div>` : "") +
+      ({ home: renderHome, stations: renderStations, map: renderMap, specials: renderSpecials }[tab] || renderHome)();
+  }
+  afterRender();
+}
+function go(tab){ state.settings.tab = tab; state.station = null; save(); render(); window.scrollTo(0, 0); }
+function openStation(id){ const st = K.resolveStation(state.idx, id); state.station = st ? st.id : id; render(); window.scrollTo(0, 0); }
+
+// ---------- sheets ----------
+function openSheet(name){
+  $("#sheetTitle").textContent = name === "quick" ? t("quick_add") : t("settings");
+  $("#sheetBody").innerHTML = name === "quick" ? renderQuickAdd() : renderSettings();
+  $("#sheet").hidden = false;
+  $("#sheet").dataset.name = name;
+}
+function closeSheet(){ $("#sheet").hidden = true; render(); }
+function refreshSheet(){ if (!$("#sheet").hidden) openSheet($("#sheet").dataset.name); }
+
+function renderSettings(){
+  const s = state.settings, d = state.data, src = (d && d.sources) || {};
+  const orphans = d ? K.orphanTicks(state.idx, state.ticks) : [];
+  const srcRow = key => `<div class="kv"><span>${esc(t("src_" + key))}</span><span>${esc(agoText(src[key]))}</span></div>`;
+  return `
+    <div class="card"><div class="set"><div><div class="t" style="font-weight:600">${esc(t("cards_setting"))}</div>
+      <div class="sub">${esc(t("cards_hint"))}</div></div>
+      <input type="checkbox" class="switch" data-act="cards" ${s.cards ? "checked" : ""} aria-label="${esc(t("cards_setting"))}"></div></div>
+    <button class="btn wide" data-act="quick">${esc(t("quick_add"))}</button>
+    <div class="lbl">${esc(t("backup"))}</div>
+    <div class="card" style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn solid" data-act="export">${esc(t("export"))}</button>
+      <button class="btn" data-act="import">${esc(t("import"))}</button></div>
+    ${orphans.length ? `<div class="lbl">${esc(t("orphans"))}</div><div class="card"><p class="sub" style="margin-top:0">${esc(t("orphans_hint"))}</p>
+      ${orphans.map(o => `<div class="kv"><span>${esc(o.st)}</span><span>${esc(o.k)} ${esc(o.d || "")}</span></div>`).join("")}</div>` : ""}
+    <div class="lbl">${esc(t("data_dates"))}</div>
+    <div class="card">${["apt_specials", "apt_status", "apt_notices", "details", "michieki", "chubu"].map(srcRow).join("")}</div>
+    <p class="sub" style="text-align:center">${esc(t("app_version", { n: APP_VERSION }))}</p>`;
+}
+
+function renderQuickAdd(){
+  const s = state.settings, d = state.data;
+  if (!d) return `<p class="empty">${esc(t("no_data"))}</p>`;
+  const pref = s.pref || 46;
+  const prefs = [...new Set(d.stations.map(x => x.pref))].sort((a, b) => a - b);
+  const list = d.stations.filter(x => x.pref === pref).sort((a, b) => (a.yomi || a.name).localeCompare(b.yomi || b.name, "ja"));
+  return `<p class="sub" style="margin-top:0">${esc(t("quick_add_hint"))}</p>
+    <select class="search" data-act="qpref">${prefs.map(p => `<option value="${p}" ${p === pref ? "selected" : ""}>${esc(prefName(p))}</option>`).join("")}</select>
+    <div class="card">${list.map(st => {
+      const opts = [`<label><input type="checkbox" data-q="${esc(st.id)}|kippu|" ${findTick(st.id, "kippu") ? "checked" : ""}> ${esc(t("kippu"))}</label>`]
+        .concat((st.shitei || []).map(r => `<label><input type="checkbox" data-q="${esc(st.id)}|shitei|${r}" ${findTick(st.id, "shitei", r) ? "checked" : ""}> ${esc(t("shitei", { region: regionLabel(K.REGIONS_SHITEI, r) }))}</label>`));
+      return `<div class="row"><div style="flex:1"><div style="font-weight:600">${esc(st.name)}</div>
+        <div class="sub" style="display:flex;gap:14px;flex-wrap:wrap">${opts.join("")}</div></div></div>`;
+    }).join("")}</div>`;
+}
+
+function tickNow(st, k, r, sp){
+  const tk = { id: K.newId(), st, k, d: today(), no: "", note: "", c: new Date().toISOString() };
+  if (r) tk.r = r;
+  if (sp){
+    tk.sp = sp;
+    const info = ((state.data && state.data.specials) || []).find(x => x.id === sp) || state.custom.find(x => x.id === sp) || {};
+    tk.nm = info.name || "";
+    tk.when = info.start || info.date || "";
+  }
+  state.ticks = K.addTick(state.ticks, tk);
+  save();
+}
+
+async function exportBackup(){
+  const backup = { app: "kippu", v: 1, exported: new Date().toISOString(), ticks: state.ticks, custom: state.custom,
+    notSold: state.settings.notSold };
+  const name = `kippu-backup-${today()}.json`;
+  const file = new File([JSON.stringify(backup, null, 1)], name, { type: "application/json" });
+  const touch = window.matchMedia && matchMedia("(pointer: coarse)").matches;
+  if (touch && navigator.canShare && navigator.canShare({ files: [file] })){
+    try { await navigator.share({ files: [file], title: "きっぷ帳 backup" }); toast(t("backup_exported")); return; }
+    catch(e){ if (e && e.name === "AbortError") return; }
+  }
+  const url = URL.createObjectURL(file), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  toast(t("backup_downloads"));
+}
+async function importBackup(file){
+  let obj = null;
+  try { obj = JSON.parse(await file.text()); } catch(e){}
+  if (!K.validateBackup(obj)){ toast(t("import_bad")); return; }
+  const m = K.mergeBackup({ ticks: state.ticks, custom: state.custom }, obj);
+  state.ticks = m.ticks; state.custom = m.custom;
+  if (state.data) setData(state.data);
+  if (Array.isArray(obj.notSold)) state.settings.notSold = [...new Set(state.settings.notSold.concat(obj.notSold))];
+  save(); refreshSheet(); render();
+  toast(t("imported", { n: m.added }));
+}
+
+// ---------- events ----------
+document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+document.querySelectorAll("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (b) go(b.dataset.tab); });
+$("#menuBtn").onclick = () => openSheet("settings");
+$("#sheetClose").onclick = closeSheet;
+$("#sheet").addEventListener("click", e => { if (e.target.id === "sheet") closeSheet(); });
+$("#importFile").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; if (f) importBackup(f); });
+$("#sheetBody").addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+  if (act === "export") exportBackup();
+  if (act === "import") $("#importFile").click();
+  if (act === "quick") openSheet("quick");
+});
+$("#sheetBody").addEventListener("change", e => {
+  const el = e.target;
+  if (el.dataset.act === "cards"){ state.settings.cards = el.checked; save(); }
+  if (el.dataset.act === "qpref"){ state.settings.pref = +el.value; save(); refreshSheet(); }
+  if (el.dataset.q){
+    const [st, k, r] = el.dataset.q.split("|");
+    if (el.checked){
+      const tk = { id: K.newId(), st, k, d: "", no: "", note: "", c: new Date().toISOString() };
+      if (r) tk.r = r;
+      state.ticks = K.addTick(state.ticks, tk);
+    } else {
+      const x = findTick(st, k, r);
+      if (x && (x.no || x.note) && !confirm(t("confirm_untick"))){ el.checked = true; return; }
+      if (x) state.ticks = K.removeTick(state.ticks, x.id);
+    }
+    save();
+  }
+});
+// ---------- screen events ----------
+$("#view").addEventListener("click", e => {
+  const el = e.target.closest("[data-open],[data-go],[data-back],[data-block],[data-pref],[data-spblock],[data-sppref],[data-spmore],[data-mapfilter],[data-locate],[data-notsold],[data-addsp],[data-rmcustom]");
+  if (!el) return;
+  const s = state.settings, ds = el.dataset;
+  if (ds.mapfilter !== undefined){ s.mapFilter = ds.mapfilter; save(); render(); return; }
+  if (ds.locate !== undefined){ locate(); return; }
+  if (ds.sppref !== undefined){ s.spPref = ds.sppref ? +ds.sppref : null; state.spMore = 0; save(); render(); return; }
+  if (ds.spmore !== undefined){ state.spMore += 100; render(); return; }
+  if (ds.open !== undefined){ openStation(ds.open); return; }
+  if (ds.back !== undefined){ state.station = null; render(); return; }
+  if (ds.go !== undefined){ if (ds.block) { s.block = ds.block; s.pref = null; state.query = ""; } go(ds.go); return; }
+  if (ds.block !== undefined){ s.block = ds.block; s.pref = null; state.query = ""; save(); render(); return; }
+  if (ds.pref !== undefined){ s.pref = +ds.pref; state.query = ""; save(); render(); return; }
+  if (ds.spblock !== undefined){ s.spBlock = ds.spblock || null; s.spPref = null; state.spMore = 0; save(); render(); return; }
+  if (ds.notsold !== undefined){
+    const key = `${state.station}:${ds.notsold}`;
+    s.notSold = s.notSold.includes(key) ? s.notSold.filter(x => x !== key) : s.notSold.concat([key]);
+    save(); render(); return;
+  }
+  if (ds.addsp !== undefined){
+    const name = $("#cName").value.trim();
+    if (!name) { $("#cName").focus(); return; }
+    const c = { id: "c-" + K.newId(), st: state.station, name, date: $("#cDate").value || "" };
+    state.custom = state.custom.concat([c]);
+    tickNow(state.station, "special", null, c.id);
+    const tk = findTick(state.station, "special", null, c.id); if (tk && c.date) tk.d = c.date;
+    save(); render(); return;
+  }
+  if (ds.rmcustom !== undefined){
+    if (!confirm(t("confirm_remove"))) return;
+    state.custom = state.custom.filter(c => c.id !== ds.rmcustom);
+    state.ticks = state.ticks.filter(x => !(x.k === "special" && x.sp === ds.rmcustom));
+    save(); render();
+  }
+});
+$("#view").addEventListener("change", e => {
+  const el = e.target;
+  if (el.dataset.tick !== undefined){
+    const [k, r, sp] = el.dataset.tick.split("|");
+    const tk = findTick(state.station, k, r, sp);
+    if (el.checked && !tk) tickNow(state.station, k, r, sp);
+    if (!el.checked && tk){
+      if ((tk.no || tk.note) && !confirm(t("confirm_untick"))) { el.checked = true; return; }
+      state.ticks = K.removeTick(state.ticks, tk.id); save();
+    }
+    render(); return;
+  }
+  if (el.dataset.field){
+    const tk = state.ticks.find(x => x.id === el.dataset.tid);
+    if (tk){ tk[el.dataset.field] = el.value.trim(); save(); }
+  }
+});
+$("#view").addEventListener("input", e => {
+  if (e.target.id === "stSearch"){ state.query = e.target.value; $("#stList").innerHTML = stationList(); return; }
+  if (e.target.dataset.field){
+    const tk = state.ticks.find(x => x.id === e.target.dataset.tid);
+    if (tk){ tk[e.target.dataset.field] = e.target.value.trim(); save(); }
+  }
+});
+$("#view").addEventListener("focusout", () => {
+  setTimeout(() => { if (state.pendingRender && !(document.activeElement && document.activeElement.matches("#view input"))){ state.pendingRender = false; render(); } }, 0);
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && Date.now() - lastFetch > 3600 * 1000) loadData();
+});
+window.addEventListener("online", () => { if (Date.now() - lastFetch > 10 * 60 * 1000) loadData(); });
+
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")){
+  // when an update is installed, refresh once so the new version shows straight away
+  const hadController = !!navigator.serviceWorker.controller; let refreshed = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController && !refreshed){ refreshed = true; location.reload(); } });
+  navigator.serviceWorker.register("sw.js").then(reg => {
+    // a home-screen app often resumes instead of reloading, so also look for updates when it comes back
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") reg.update().catch(() => {}); });
+  }).catch(() => {});
+}
+
+render();
+loadData();
+</script>
+</body>
+</html>
