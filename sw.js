@@ -1,12 +1,13 @@
 // Offline support: keeps a copy of the app on the device.
 // Bump VERSION (and APP_VERSION in index.html) whenever you upload a changed file, so phones pick up the update.
 // Station data is saved by the page itself in the "kippu-data" cache, so it's left alone here.
-const VERSION = "kippu-v1";
+const VERSION = "kippu-v2";
 const DATA_CACHE = "kippu-data";
 const FILES = [
   "./",
   "./index.html",
   "./logic.js",
+  "./lang.js",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",

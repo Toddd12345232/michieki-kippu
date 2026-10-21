@@ -135,10 +135,11 @@
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 <div id="toast"></div>
 <script src="leaflet.js"></script>
+<script src="lang.js"></script>
 <script src="logic.js"></script>
 <script>
 "use strict";
-const APP_VERSION = 1;
+const APP_VERSION = 2;
 const DEFAULT_DATA_URL = "https://raw.githubusercontent.com/Toddd12345232/michieki-kippu/data/data.json";
 const APT_SPECIALS_URL = "https://www.a-pt.co.jp/%E7%89%B9%E5%88%A5%E8%A8%98%E5%BF%B5%E3%81%8D%E3%81%A3%E3%81%B7-%E9%85%8D%E5%B8%83%E6%96%B9%E6%B3%95/";
 const DATA_CACHE = "kippu-data";
@@ -146,51 +147,29 @@ const params = new URLSearchParams(location.search);
 const DATA_URL = params.get("data") ? new URL(params.get("data"), location.href).href : DEFAULT_DATA_URL;
 
 // ---------- text ----------
-const EN = {
-  settings: "Settings", close: "Close", back: "Back",
-  tab_home: "Home", tab_stations: "Stations", tab_map: "Map", tab_specials: "Specials",
-  kippu: "記念きっぷ", shitei: "{region} 指定券", card: "{region} 道の駅カード", special: "特別記念きっぷ",
-  of_selling: "of {n} selling stations", this_year: "This year: {n}", prefs_count: "Prefectures: {n} / 47",
-  collected: "{n} collected", special_tickets: "Special tickets", by_region: "By region", more_specials: "+ {n} more",
-  no_specials_soon: "No special tickets in the next 30 days.", all_japan: "All Japan",
-  today: "Today", tomorrow: "Tomorrow", on_now: "On now",
-  no_data: "Station info will appear after the first update. Check your connection, then reopen the app.",
-  loading: "Loading station info…",
-  stale: "Station info last updated {n} days ago. It may be out of date.",
-  updated_ago: "Updated {when}", updated_today: "today", updated_days: "{n} days ago", updated_1day: "yesterday",
-  search: "Search a station…", pref_line: "{pref} · {sell} selling · you have {have}", choose_pref: "Choose a prefecture above.",
-  no_match: "No stations match.",
-  open_now: "Open", closed_now: "Closed", closed_days: "closed {days}",
-  special_tag: "special", special_soon: "special {when}", no_kippu: "no 記念きっぷ", no_coords: "not on the map yet",
-  hours: "Hours", closed_lbl: "Closed", phone: "Phone", address: "Address", open_in_maps: "Open in Maps",
-  hours_unknown: "Not listed", what_i_got: "What I got here", notices: "Notices from a-pt",
-  sold_all_kyushu: "Sold at every 九州・沖縄 station", sold_here: "Sold here", not_sold_now: "Not sold now: {raw}",
-  date: "Date", ticket_no: "Ticket No.", note: "Note", not_listed_now: "No longer listed by a-pt",
-  gone_station: "No longer listed on michieki.jp. Your ticks are kept.", gone_tag: "no longer listed", not_sold_here: "Not sold here", undo_not_sold: "Sold here after all",
-  marked_not_sold: "Marked as not sold here. It's left out of your progress.",
-  confirm_untick: "Untick this? The ticket number and note will be deleted.",
-  add_special: "Add a special ticket by hand", special_name: "Ticket name", add: "Add", my_special: "added by me",
-  remove: "Remove", confirm_remove: "Remove this special ticket?",
-  from_when: "From {date}", until_gone: "until gone", ended_on: "配布終了 {date}",
-  mail: "Mail", phone_q: "Phone", ok: "OK", ng: "NG",
-  map_all: "All", map_todo: "Not yet", map_specials: "Specials", map_open: "Open now",
-  legend_got: "Got it", legend_todo: "Not yet", legend_special: "Special ticket on", legend_none: "No 記念きっぷ",
-  map_offline: "The map needs signal. Everything else works offline.", my_location: "📍 Me", no_location: "Location isn't available.",
-  open_station: "Open station ›", pins: "{n} stations on the map",
-  sp_on: "On now", sp_upcoming: "Upcoming", sp_past: "Ended or past", show_more: "Show more", apt_page: "a-pt's special ticket page",
-  sp_none: "Nothing here right now.", all_prefs: "All prefectures",
-  cards_setting: "Collect 道の駅カード too", cards_hint: "Adds the 長野・愛知・三重・静岡 cards and the Shikoku 記念カード.",
-  quick_add: "Quick add past tickets", quick_add_hint: "Tick tickets you already have. Dates can be added later on each station page.",
-  backup: "Backup", export: "Export backup", import: "Import backup",
-  backup_exported: "Backup saved.", backup_downloads: "Backup saved to Downloads.",
-  imported: "Imported. {n} added.", import_bad: "That file isn't a きっぷ帳 backup.",
-  orphans: "Ticks for stations not found", orphans_hint: "These stations are no longer in the station list. Your ticks are kept.",
-  data_dates: "Station info", src_michieki: "Station list and map (michieki.jp)", src_details: "Opening hours (michieki.jp)", src_apt_status: "Selling status (a-pt)",
-  src_apt_specials: "Special tickets (a-pt)", src_apt_notices: "Notices (a-pt)", src_chubu: "Chubu 指定券 lists",
-  never: "not yet", app_version: "App version {n}", save_failed: "Couldn't save on this phone. Free some space and try again.",
-};
+// The words for every language are in lang.js (window.KIPPU_LANGS). English fills any gap.
+const LANGS = [
+  { code: "en", name: "English", locale: "en-GB" },
+  { code: "zh-Hant", name: "繁體中文", locale: "zh-HK" },
+  { code: "ja", name: "日本語", locale: "ja-JP" },
+  { code: "ko", name: "한국어", locale: "ko-KR" },
+];
+const TEXT = window.KIPPU_LANGS || {};
+let LANG = "en";
+const locale = () => (LANGS.find(l => l.code === LANG) || LANGS[0]).locale;
+function phoneLanguage(){
+  for (const l of navigator.languages || [navigator.language || ""]){
+    const x = String(l).toLowerCase();
+    if (x.startsWith("zh")) return "zh-Hant";
+    if (x.startsWith("ja")) return "ja";
+    if (x.startsWith("ko")) return "ko";
+    if (x.startsWith("en")) return "en";
+  }
+  return "en";
+}
 function t(key, vars){
-  let s = EN[key] != null ? EN[key] : key;
+  const own = TEXT[LANG] || {}, en = TEXT.en || {};
+  let s = own[key] != null ? own[key] : en[key] != null ? en[key] : key;
   if (vars) for (const k in vars) s = s.split("{" + k + "}").join(vars[k]);
   return s;
 }
@@ -198,7 +177,7 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&a
 const $ = sel => document.querySelector(sel);
 
 // ---------- storage ----------
-const DEFAULT_SETTINGS = { tab: "home", cards: false, block: null, pref: null, notSold: [], mapFilter: "all", mapView: null, spBlock: null, spPref: null };
+const DEFAULT_SETTINGS = { lang: null, tab: "home", cards: false, block: null, pref: null, notSold: [], mapFilter: "all", mapView: null, spBlock: null, spPref: null };
 function load(key, fallback){
   let raw = null;
   try { raw = localStorage.getItem(key); } catch(e){ return fallback; }
@@ -216,6 +195,8 @@ const state = {
   settings: Object.assign({}, DEFAULT_SETTINGS, load("kippu.settings", {})),
   data: null, idx: K.indexStations([]), loaded: false, station: null, spMore: 0,
 };
+if (!LANGS.some(l => l.code === state.settings.lang)) state.settings.lang = phoneLanguage();
+LANG = state.settings.lang;
 if (!Array.isArray(state.ticks)) state.ticks = [];
 if (!Array.isArray(state.custom)) state.custom = [];
 function save(){
@@ -297,7 +278,7 @@ const pct = (have, total) => (total ? Math.max(have ? 2 : 0, Math.round(have / t
 function fmtDate(ymd){
   if (!ymd) return "";
   const [y, m, d] = ymd.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
 }
 function whenLabel(sp){
   const td = today();
@@ -333,7 +314,7 @@ function renderHome(){
   return `
     <div class="card">
       <div class="lbl" style="margin:0 0 2px">${esc(t("kippu"))}</div>
-      <div class="big">${p.kippu.have} <span>${esc(t("of_selling", { n: p.kippu.total.toLocaleString("en") }))}</span></div>
+      <div class="big">${p.kippu.have} <span>${esc(t("of_selling", { n: p.kippu.total.toLocaleString(locale()) }))}</span></div>
       <div class="bar"><i style="width:${pct(p.kippu.have, p.kippu.total)}%"></i></div>
       <div class="kv"><span>${esc(t("this_year", { n: p.year }))}</span><span>${esc(t("prefs_count", { n: p.prefs }))}</span></div>
     </div>
@@ -609,6 +590,9 @@ function renderSettings(){
   const orphans = d ? K.orphanTicks(state.idx, state.ticks) : [];
   const srcRow = key => `<div class="kv"><span>${esc(t("src_" + key))}</span><span>${esc(agoText(src[key]))}</span></div>`;
   return `
+    <div class="card"><div class="set"><b>${esc(t("language"))}</b>
+      <select class="search" style="width:auto;margin:0" data-act="lang" aria-label="${esc(t("language"))}">${
+        LANGS.map(l => `<option value="${l.code}" ${l.code === LANG ? "selected" : ""}>${esc(l.name)}</option>`).join("")}</select></div></div>
     <div class="card"><div class="set"><div><div class="t" style="font-weight:600">${esc(t("cards_setting"))}</div>
       <div class="sub">${esc(t("cards_hint"))}</div></div>
       <input type="checkbox" class="switch" data-act="cards" ${s.cards ? "checked" : ""} aria-label="${esc(t("cards_setting"))}"></div></div>
@@ -618,10 +602,16 @@ function renderSettings(){
       <button class="btn solid" data-act="export">${esc(t("export"))}</button>
       <button class="btn" data-act="import">${esc(t("import"))}</button></div>
     ${orphans.length ? `<div class="lbl">${esc(t("orphans"))}</div><div class="card"><p class="sub" style="margin-top:0">${esc(t("orphans_hint"))}</p>
-      ${orphans.map(o => `<div class="kv"><span>${esc(o.st)}</span><span>${esc(o.k)} ${esc(o.d || "")}</span></div>`).join("")}</div>` : ""}
+      ${orphans.map(o => `<div class="kv"><span>${esc(o.st)}</span><span>${esc(kindLabel(o))} ${esc(o.d || "")}</span></div>`).join("")}</div>` : ""}
     <div class="lbl">${esc(t("data_dates"))}</div>
     <div class="card">${["apt_specials", "apt_status", "apt_notices", "details", "michieki", "chubu"].map(srcRow).join("")}</div>
     <p class="sub" style="text-align:center">${esc(t("app_version", { n: APP_VERSION }))}</p>`;
+}
+
+function kindLabel(tk){
+  if (tk.k === "shitei") return t("shitei", { region: regionLabel(K.REGIONS_SHITEI, tk.r) });
+  if (tk.k === "card") return t("card", { region: regionLabel(K.REGIONS_CARD, tk.r) });
+  return t(tk.k === "special" ? "special" : "kippu");
 }
 
 function renderQuickAdd(){
@@ -681,8 +671,12 @@ async function importBackup(file){
 }
 
 // ---------- events ----------
-document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
-document.querySelectorAll("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+function applyStaticText(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+}
+applyStaticText();
 $("#tabs").addEventListener("click", e => { const b = e.target.closest("button[data-tab]"); if (b) go(b.dataset.tab); });
 $("#menuBtn").onclick = () => openSheet("settings");
 $("#sheetClose").onclick = closeSheet;
@@ -699,6 +693,7 @@ $("#sheetBody").addEventListener("click", e => {
 $("#sheetBody").addEventListener("change", e => {
   const el = e.target;
   if (el.dataset.act === "cards"){ state.settings.cards = el.checked; save(); }
+  if (el.dataset.act === "lang"){ LANG = state.settings.lang = el.value; save(); applyStaticText(); refreshSheet(); }
   if (el.dataset.act === "qpref"){ state.settings.pref = +el.value; save(); refreshSheet(); }
   if (el.dataset.q){
     const [st, k, r] = el.dataset.q.split("|");
