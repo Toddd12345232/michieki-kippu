@@ -7,7 +7,7 @@ from datetime import date, timedelta
 
 from bs4 import BeautifulSoup
 
-from .regions import PREFS
+from regions import PREFS
 
 SPECIALS_URL = "https://www.a-pt.co.jp/%E7%89%B9%E5%88%A5%E8%A8%98%E5%BF%B5%E3%81%8D%E3%81%A3%E3%81%B7-%E9%85%8D%E5%B8%83%E6%96%B9%E6%B3%95/"
 NOTICES_URL = "https://www.a-pt.co.jp/%E9%81%93%E3%81%AE%E9%A7%85-%E3%81%9D%E3%81%AE%E4%BB%96%E6%83%85%E5%A0%B1/"

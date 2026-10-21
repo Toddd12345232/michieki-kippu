@@ -11,8 +11,8 @@ const FILES = [
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",
-  "./vendor/leaflet/leaflet.js",
-  "./vendor/leaflet/leaflet.css"
+  "./leaflet.js",
+  "./leaflet.css"
 ];
 const SHELL = new Set(FILES.map(f => new URL(f, self.location).href));
 

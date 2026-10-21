@@ -3,7 +3,7 @@ import json
 import re
 import unicodedata
 
-from .apt import lines
+from apt import lines
 
 CHUBU_URL = "https://www.chubu-michinoeki.org/"
 KYUSHU = range(40, 48)

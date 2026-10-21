@@ -37,7 +37,7 @@ jobs:
         id: build
         run: |
           set +e
-          python -m scraper.build --out out
+          python build.py --out out
           echo "code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Save the data

@@ -1,6 +1,6 @@
 """Refresh the source sections that are due, then write data.json for the app.
 
-    python -m scraper.build --out DIR [--cache DIR] [--delay S] [--force NAME ...]
+    python build.py --out DIR [--cache DIR] [--delay S] [--details N] [--force NAME ...]
 
 DIR/state.json keeps the raw sections between runs (only this script reads it).
 DIR/data.json is what the app downloads. A section that fails, or comes back
@@ -14,11 +14,13 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 
-from . import apt, michieki, regional
-from .fetch import FetchError, Fetcher
-from .hours import schedule
-from .match import Matcher, norm
-from .regions import APT_PAGES, MICHIEKI_XML, apt_page_url, michieki_detail_url, michieki_xml_url, pref_code
+import apt
+import michieki
+import regional
+from fetch import FetchError, Fetcher
+from hours import schedule
+from match import Matcher, norm
+from regions import APT_PAGES, MICHIEKI_XML, apt_page_url, michieki_detail_url, michieki_xml_url, pref_code
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAX_AGE = {"michieki": timedelta(days=6), "apt_status": timedelta(hours=20), "apt_specials": timedelta(hours=20),
@@ -261,7 +263,7 @@ def _write(path, obj, compact):
 
 
 def main(argv, fetcher=None):
-    ap = argparse.ArgumentParser(prog="python -m scraper.build")
+    ap = argparse.ArgumentParser(prog="python build.py")
     ap.add_argument("--out", required=True)
     ap.add_argument("--cache")
     ap.add_argument("--delay", type=float, default=1.0)
