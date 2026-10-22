@@ -112,6 +112,15 @@
   .sp p{margin:3px 0;font-size:13.5px}
   .more{display:block;margin:6px auto 0;background:none;border:0;color:var(--brand);font-weight:600;cursor:pointer}
   select.search{appearance:auto}
+  .here{border:2px solid var(--ok)}
+  .tickbtn{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;margin-top:8px;font-weight:600;cursor:pointer}
+  .tickbtn input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--grey);margin:0;flex:none;display:grid;place-content:center;background:var(--card)}
+  .tickbtn input:checked{background:var(--ok);border-color:var(--ok)}
+  .tickbtn input:checked::after{content:"✓";color:#fff;font-size:15px;font-weight:700}
+  .tickbtn:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+  .linkrow{display:block;width:100%;text-align:left;background:none;border:0;padding:6px 0 0;color:var(--brand);font-size:13.5px;cursor:pointer}
+  textarea.search{min-height:130px;resize:vertical;font-size:15px}
+  .steps{margin:0 0 8px;padding-left:20px;font-size:13.5px;color:var(--sub)}
 </style>
 </head>
 <body>
@@ -139,7 +148,7 @@
 <script src="logic.js"></script>
 <script>
 "use strict";
-const APP_VERSION = 2;
+const APP_VERSION = 3;
 const DEFAULT_DATA_URL = "https://raw.githubusercontent.com/Toddd12345232/michieki-kippu/data/data.json";
 const APT_SPECIALS_URL = "https://www.a-pt.co.jp/%E7%89%B9%E5%88%A5%E8%A8%98%E5%BF%B5%E3%81%8D%E3%81%A3%E3%81%B7-%E9%85%8D%E5%B8%83%E6%96%B9%E6%B3%95/";
 const DATA_CACHE = "kippu-data";
@@ -177,7 +186,7 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&a
 const $ = sel => document.querySelector(sel);
 
 // ---------- storage ----------
-const DEFAULT_SETTINGS = { lang: null, tab: "home", cards: false, block: null, pref: null, notSold: [], mapFilter: "all", mapView: null, spBlock: null, spPref: null };
+const DEFAULT_SETTINGS = { lang: null, nearby: true, tab: "home", cards: false, block: null, pref: null, notSold: [], mapFilter: "all", mapView: null, spBlock: null, spPref: null };
 function load(key, fallback){
   let raw = null;
   try { raw = localStorage.getItem(key); } catch(e){ return fallback; }
@@ -264,6 +273,18 @@ function agoText(iso){
   return n <= 0 ? t("updated_today") : n === 1 ? t("updated_1day") : t("updated_days", { n });
 }
 
+// ---------- where am I ----------
+let lastLocate = 0;
+function findMe(){
+  if (!state.settings.nearby || !navigator.geolocation || Date.now() - lastLocate < 2 * 60 * 1000) return;
+  lastLocate = Date.now();
+  navigator.geolocation.getCurrentPosition(pos => {
+    state.here = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    if (!state.station && state.settings.tab === "home") safeRender();
+  }, () => { state.here = null; }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 2 * 60 * 1000 });
+}
+const distText = km => (km < 1 ? `${Math.max(10, Math.round(km * 1000 / 10) * 10)} m` : `${km < 10 ? km.toFixed(1) : Math.round(km)} km`);
+
 // ---------- helpers shared by screens ----------
 const today = () => K.jst(new Date()).ymd;
 const prefName = code => K.PREFS[code - 1] || "";
@@ -308,10 +329,11 @@ function renderHome(){
   const sps = K.upcomingSpecials(d.specials, today(), { block: s.spBlock });
   const spRows = sps.slice(0, 3).map(sp => `<button class="row" style="width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer;padding-left:0;padding-right:0"
       ${sp.st ? `data-open="${esc(sp.st)}"` : `data-go="specials"`}><span class="dot"></span><div><b>${esc(whenLabel(sp))} · ${esc(sp.station || "")}</b>
-      <span class="sub">(${esc(prefShort(K.prefCode(sp.pref)))})</span><br><span class="sub">${esc(short([sp.name, sp.cond].filter(Boolean).join(" · "), 70))}</span></div></button>`).join("");
+      <span class="sub">(${esc(prefShort(K.prefCode(sp.pref)))})</span><br><span class="sub">${esc(short([K.spText(sp, LANG).name, K.spText(sp, LANG).cond].filter(Boolean).join(" · "), 70))}</span></div></button>`).join("");
   const blocks = K.BLOCKS.filter(b => p.blocks[b.key].total > 0)
     .map(b => `<button style="display:block;width:100%;background:none;border:0;padding:0;text-align:left;cursor:pointer" data-go="stations" data-block="${b.key}">${bar(b.label, p.blocks[b.key])}</button>`).join("");
-  return `
+  return `${hereCard()}
+    <button class="btn wide" style="margin:0 0 10px" data-read>📷 ${esc(t("read_tickets"))}</button>
     <div class="card">
       <div class="lbl" style="margin:0 0 2px">${esc(t("kippu"))}</div>
       <div class="big">${p.kippu.have} <span>${esc(t("of_selling", { n: p.kippu.total.toLocaleString(locale()) }))}</span></div>
@@ -329,6 +351,27 @@ function renderHome(){
       ${sps.length > 3 ? `<button class="more" data-go="specials">${esc(t("more_specials", { n: sps.length - 3 }))}</button>` : ""}</div>
     <div class="lbl">${esc(t("by_region"))}</div>
     <div class="card">${blocks}</div>`;
+}
+
+function quickTicks(st){
+  const s = state.settings, opts = [{ k: "kippu", r: "", label: t("kippu") }]
+    .concat((st.shitei || []).filter(r => !s.notSold.includes(`${st.id}:${r}`)).map(r => ({ k: "shitei", r, label: t("shitei", { region: regionLabel(K.REGIONS_SHITEI, r) }) })))
+    .concat(s.cards ? (st.cards || []).map(r => ({ k: "card", r, label: t("card", { region: regionLabel(K.REGIONS_CARD, r) }) })) : []);
+  return opts.map(o => `<label class="tickbtn"><input type="checkbox" data-st="${esc(st.id)}" data-tick="${esc(o.k)}|${esc(o.r)}|" ${findTick(st.id, o.k, o.r) ? "checked" : ""}>${esc(o.label)}</label>`).join("");
+}
+function hereCard(){
+  if (!state.here || !state.data) return "";
+  const near = K.nearestStations(state.data.stations, state.here.lat, state.here.lng, 2);
+  if (!near.length || near[0].km > 30) return "";
+  const [a, b] = near;
+  if (a.km > 1) return `<div class="card"><button class="linkrow" style="padding:0" data-open="${esc(a.st.id)}">📍 ${esc(t("nearest", { name: a.st.name, dist: distText(a.km) }))} ›</button></div>`;
+  return `<div class="card here">
+    <div class="lbl" style="margin:0 0 2px;text-transform:none">📍 ${esc(t("here_title", { dist: distText(a.km) }))}</div>
+    <button class="back" style="padding:0;font-size:20px;font-weight:700;color:var(--ink)" data-open="${esc(a.st.id)}">道の駅 ${esc(a.st.name)}</button>
+    <div class="sub">${hoursLine(a.st) || esc(prefName(a.st.pref))}</div>
+    ${quickTicks(a.st)}
+    ${b ? `<button class="linkrow" data-open="${esc(b.st.id)}">${esc(t("next_nearest", { name: b.st.name, dist: distText(b.km) }))} ›</button>` : ""}
+  </div>`;
 }
 
 function offered(st){
@@ -415,8 +458,9 @@ function renderStation(id){
   }
   if (s.cards) for (const r of st.cards || []) rows.push(row({ k: "card", r }, esc(t("card", { region: regionLabel(K.REGIONS_CARD, r) })), esc(t("sold_here"))));
   for (const sp of specialsAt(st.id).sort((a, b) => (a.posted < b.posted ? 1 : -1))){
-    const sub = [sp.when, sp.cond].filter(Boolean).join(" · ") + (sp.ended ? " · " + t("ended_on", { date: sp.ended }) : "");
-    rows.push(row({ k: "special", sp: sp.id }, `${esc(sp.name || t("special"))} <span class="tag am">${esc(t("special_tag"))}</span>`, esc(sub)));
+    const x = K.spText(sp, LANG);
+    const sub = [x.when, x.cond].filter(Boolean).join(" · ") + (sp.ended ? " · " + t("ended_on", { date: sp.ended }) : "");
+    rows.push(row({ k: "special", sp: sp.id }, `${esc(x.name || t("special"))} <span class="tag am">${esc(t("special_tag"))}</span>`, esc(sub)));
   }
   for (const c of state.custom.filter(c => c.st === st.id)){
     rows.push(row({ k: "special", sp: c.id }, `${esc(c.name)} <span class="tag am">${esc(t("my_special"))}</span>`, esc(c.date ? fmtDate(c.date) : ""),
@@ -465,7 +509,7 @@ function passFilter(st, f, now){
 function popupHtml(st){
   const live = liveSpecial(st.id);
   return `<b>道の駅 ${esc(st.name)}</b><br>${hoursLine(st) || esc(st.hours || "")}` +
-    (live ? `<br><span style="color:${cssVar("--amber")}">${esc(t("special_tag"))} · ${esc(whenLabel(live.sp))} · ${esc(short(live.sp.name || "", 30))}</span>` : "") +
+    (live ? `<br><span style="color:${cssVar("--amber")}">${esc(t("special_tag"))} · ${esc(whenLabel(live.sp))} · ${esc(short(K.spText(live.sp, LANG).name || "", 30))}</span>` : "") +
     `<br><a href="#" data-popup-open="${esc(st.id)}">${esc(t("open_station"))}</a>`;
 }
 function renderMap(){
@@ -514,19 +558,21 @@ function locate(){
 }
 
 function spCard(sp){
-  const st = sp.st ? stationById(sp.st) : null, mine = !!findTick(sp.st, "special", null, sp.id);
+  const st = sp.st ? stationById(sp.st) : null, mine = !!findTick(sp.st, "special", null, sp.id), x = K.spText(sp, LANG);
   const station = st ? `<button class="back" style="padding:0;font-weight:600" data-open="${esc(st.id)}">${esc(sp.station || st.name)}</button>`
     : `<b>${esc(sp.station || "")}</b>`;
-  const facts = [sp.limit, sp.mail && `${t("mail")} ${sp.mail}`, sp.phone && `${t("phone_q")} ${sp.phone}`].filter(Boolean).join(" · ");
+  const facts = [x.limit, x.mail && `${t("mail")} ${x.mail}`, x.phone && `${t("phone_q")} ${x.phone}`].filter(Boolean).join(" · ");
+  const original = [sp.name, sp.when, sp.cond, sp.limit].concat(sp.extra || []).filter(Boolean);
   return `<div class="card sp">
     <div class="when">${esc(sp.start ? fmtDate(sp.start) : "")}${sp.end && sp.end !== sp.start ? " – " + esc(fmtDate(sp.end)) : ""}
       ${sp.ended ? ` <span class="tag no">${esc(t("ended_on", { date: sp.ended }))}</span>` : ""}${mine ? ` <span class="tag ok">✓</span>` : ""}</div>
     <div>${station} <span class="sub">(${esc(prefShort(K.prefCode(sp.pref)))})</span></div>
-    ${sp.name ? `<p>${esc(sp.name)}</p>` : ""}
-    ${sp.when ? `<p class="sub">${esc(sp.when)}</p>` : ""}
-    ${sp.cond ? `<p class="sub">${esc(sp.cond)}</p>` : ""}
+    ${x.name ? `<p>${esc(x.name)}</p>` : ""}
+    ${x.when ? `<p class="sub">${esc(x.when)}</p>` : ""}
+    ${x.cond ? `<p class="sub">${esc(x.cond)}</p>` : ""}
     ${facts ? `<p class="sub">${esc(facts)}</p>` : ""}
-    ${(sp.extra || []).slice(0, 4).map(x => `<p class="sub">${esc(x)}</p>`).join("")}</div>`;
+    ${x.extra.slice(0, 4).map(e => `<p class="sub">${esc(e)}</p>`).join("")}
+    ${x.translated ? `<details class="sub"><summary>${esc(t("show_original"))}</summary>${original.map(o => `<p class="sub" lang="ja">${esc(o)}</p>`).join("")}</details>` : ""}</div>`;
 }
 function renderSpecials(){
   const s = state.settings, td = today();
@@ -577,8 +623,8 @@ function openStation(id){ const st = K.resolveStation(state.idx, id); state.stat
 
 // ---------- sheets ----------
 function openSheet(name){
-  $("#sheetTitle").textContent = name === "quick" ? t("quick_add") : t("settings");
-  $("#sheetBody").innerHTML = name === "quick" ? renderQuickAdd() : renderSettings();
+  $("#sheetTitle").textContent = name === "quick" ? t("quick_add") : name === "read" ? t("read_tickets") : t("settings");
+  $("#sheetBody").innerHTML = name === "quick" ? renderQuickAdd() : name === "read" ? renderRead() : renderSettings();
   $("#sheet").hidden = false;
   $("#sheet").dataset.name = name;
 }
@@ -593,6 +639,9 @@ function renderSettings(){
     <div class="card"><div class="set"><b>${esc(t("language"))}</b>
       <select class="search" style="width:auto;margin:0" data-act="lang" aria-label="${esc(t("language"))}">${
         LANGS.map(l => `<option value="${l.code}" ${l.code === LANG ? "selected" : ""}>${esc(l.name)}</option>`).join("")}</select></div></div>
+    <div class="card"><div class="set"><div><div class="t" style="font-weight:600">${esc(t("nearby_setting"))}</div>
+      <div class="sub">${esc(t("nearby_hint"))}</div></div>
+      <input type="checkbox" class="switch" data-act="nearby" ${s.nearby ? "checked" : ""} aria-label="${esc(t("nearby_setting"))}"></div></div>
     <div class="card"><div class="set"><div><div class="t" style="font-weight:600">${esc(t("cards_setting"))}</div>
       <div class="sub">${esc(t("cards_hint"))}</div></div>
       <input type="checkbox" class="switch" data-act="cards" ${s.cards ? "checked" : ""} aria-label="${esc(t("cards_setting"))}"></div></div>
@@ -612,6 +661,55 @@ function kindLabel(tk){
   if (tk.k === "shitei") return t("shitei", { region: regionLabel(K.REGIONS_SHITEI, tk.r) });
   if (tk.k === "card") return t("card", { region: regionLabel(K.REGIONS_CARD, tk.r) });
   return t(tk.k === "special" ? "special" : "kippu");
+}
+
+function readLabel(x){
+  if (x.k === "special"){
+    const sp = (state.data.specials || []).find(s => s.id === x.sp);
+    return (sp && K.spText(sp, LANG).name) || x.nm || t("special");
+  }
+  return kindLabel(x);
+}
+function renderRead(){
+  if (!state.data) return `<p class="empty">${esc(t("no_data"))}</p>`;
+  const box = `<ol class="steps"><li>${esc(t("read_step1"))}</li><li>${esc(t("read_step2"))}</li></ol>
+    <textarea class="search" id="readText" placeholder="${esc(t("read_placeholder"))}">${esc(state.readText || "")}</textarea>
+    <button class="btn solid wide" data-act="readfind">${esc(t("read_find"))}</button>`;
+  if (!state.read) return box;
+  if (!state.read.length) return box + `<p class="sub" style="margin-top:10px">${esc(t("read_none"))}</p>`;
+  const rows = state.read.map((x, i) => {
+    const st = stationById(x.st), had = !!findTick(x.st, x.k, x.r, x.sp);
+    return `<div class="ck"><label><input type="checkbox" data-readpick="${i}" ${x.pick ? "checked" : ""}>
+      <div><div class="t">道の駅 ${esc(st ? st.name : x.st)}${had ? ` <span class="tag ok">${esc(t("read_already"))}</span>` : ""}</div>
+      <div class="sub">${esc(readLabel(x))} · ${esc(st ? prefName(st.pref) : "")}</div></div></label>
+      <div class="fields"><label>${esc(t("date"))}<input type="date" data-readfield="d" data-i="${i}" value="${esc(x.d || "")}"></label>
+      <label>${esc(t("ticket_no"))}<input inputmode="numeric" data-readfield="no" data-i="${i}" value="${esc(x.no || "")}"></label></div></div>`;
+  }).join("");
+  const n = state.read.filter(x => x.pick).length;
+  return box + `<div class="lbl">${esc(t("read_found", { n: state.read.length }))}</div><div class="card" style="padding-top:2px;padding-bottom:2px">${rows}</div>
+    <button class="btn solid wide" data-act="readsave" ${n ? "" : "disabled"}>${esc(t("read_save", { n }))}</button>`;
+}
+function saveRead(){
+  const add = [], custom = state.custom.slice();
+  for (const x of state.read.filter(x => x.pick)){
+    const tk = { id: K.newId(), st: x.st, k: x.k, d: x.d || "", no: x.no || "", note: "", c: new Date().toISOString() };
+    if (x.r) tk.r = x.r;
+    if (x.k === "special"){
+      if (!x.sp){
+        let c = custom.find(c => c.st === x.st && c.name === x.nm);
+        if (!c){ c = { id: "c-" + K.newId(), st: x.st, name: x.nm || t("special"), date: x.d || "" }; custom.push(c); }
+        x.sp = c.id;
+      }
+      const sp = (state.data.specials || []).find(s => s.id === x.sp) || custom.find(c => c.id === x.sp) || {};
+      Object.assign(tk, { sp: x.sp, nm: sp.name || x.nm || "", when: sp.start || sp.date || "" });
+    }
+    add.push(tk);
+  }
+  const m = K.mergeBackup({ ticks: state.ticks, custom }, { ticks: add });
+  state.ticks = m.ticks; state.custom = m.custom; save();
+  toast(t("read_saved", { n: add.length }));
+  state.read = null; state.readText = "";
+  closeSheet();
 }
 
 function renderQuickAdd(){
@@ -689,10 +787,19 @@ $("#sheetBody").addEventListener("click", e => {
   if (act === "export") exportBackup();
   if (act === "import") $("#importFile").click();
   if (act === "quick") openSheet("quick");
+  if (act === "readfind"){
+    state.readText = $("#readText").value;
+    state.read = K.readTickets(state.readText, state.data).map(x => Object.assign(x, { pick: !findTick(x.st, x.k, x.r, x.sp) }));
+    refreshSheet();
+  }
+  if (act === "readsave") saveRead();
 });
 $("#sheetBody").addEventListener("change", e => {
   const el = e.target;
   if (el.dataset.act === "cards"){ state.settings.cards = el.checked; save(); }
+  if (el.dataset.readpick !== undefined){ state.read[+el.dataset.readpick].pick = el.checked; refreshSheet(); }
+  if (el.dataset.readfield){ state.read[+el.dataset.i][el.dataset.readfield] = el.value.trim(); }
+  if (el.dataset.act === "nearby"){ state.settings.nearby = el.checked; save(); if (el.checked){ lastLocate = 0; findMe(); } else state.here = null; }
   if (el.dataset.act === "lang"){ LANG = state.settings.lang = el.value; save(); applyStaticText(); refreshSheet(); }
   if (el.dataset.act === "qpref"){ state.settings.pref = +el.value; save(); refreshSheet(); }
   if (el.dataset.q){
@@ -711,6 +818,7 @@ $("#sheetBody").addEventListener("change", e => {
 });
 // ---------- screen events ----------
 $("#view").addEventListener("click", e => {
+  if (e.target.closest("[data-read]")){ state.read = null; openSheet("read"); return; }
   const el = e.target.closest("[data-open],[data-go],[data-back],[data-block],[data-pref],[data-spblock],[data-sppref],[data-spmore],[data-mapfilter],[data-locate],[data-notsold],[data-addsp],[data-rmcustom]");
   if (!el) return;
   const s = state.settings, ds = el.dataset;
@@ -748,9 +856,9 @@ $("#view").addEventListener("click", e => {
 $("#view").addEventListener("change", e => {
   const el = e.target;
   if (el.dataset.tick !== undefined){
-    const [k, r, sp] = el.dataset.tick.split("|");
-    const tk = findTick(state.station, k, r, sp);
-    if (el.checked && !tk) tickNow(state.station, k, r, sp);
+    const [k, r, sp] = el.dataset.tick.split("|"), sid = el.dataset.st || state.station;
+    const tk = findTick(sid, k, r, sp);
+    if (el.checked && !tk) tickNow(sid, k, r, sp);
     if (!el.checked && tk){
       if ((tk.no || tk.note) && !confirm(t("confirm_untick"))) { el.checked = true; return; }
       state.ticks = K.removeTick(state.ticks, tk.id); save();
@@ -773,6 +881,7 @@ $("#view").addEventListener("focusout", () => {
   setTimeout(() => { if (state.pendingRender && !(document.activeElement && document.activeElement.matches("#view input"))){ state.pendingRender = false; render(); } }, 0);
 });
 document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") findMe();
   if (document.visibilityState === "visible" && Date.now() - lastFetch > 3600 * 1000) loadData();
 });
 window.addEventListener("online", () => { if (Date.now() - lastFetch > 10 * 60 * 1000) loadData(); });
@@ -789,6 +898,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 
 render();
 loadData();
+findMe();
 </script>
 </body>
 </html>

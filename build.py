@@ -17,6 +17,7 @@ from datetime import datetime, timedelta, timezone
 import apt
 import michieki
 import regional
+import translate
 from fetch import FetchError, Fetcher
 from hours import schedule
 from match import Matcher, norm
@@ -154,7 +155,7 @@ REFRESH = {
 }
 
 
-def build(fetcher, prev, now, force=frozenset(), details_per_run=None):
+def build(fetcher, prev, now, force=frozenset(), details_per_run=None, translator=None):
     state = dict(prev or {})
     sources = dict(state.get("sources", {}))
     errors = []
@@ -182,6 +183,13 @@ def build(fetcher, prev, now, force=frozenset(), details_per_run=None):
         except Exception as e:
             errors.append(f"details: {e}")
     state["sources"] = sources
+    # Translation problems are notes, not errors: the Japanese still shows, so they never fail the run.
+    state["notes"] = []
+    if translator is not None and state.get("apt_specials"):
+        cache, used, notes = translate.translate_specials(state["apt_specials"]["posts"], state.get("translations", {}),
+                                                          now.date(), translator, getattr(translator, "budget", translate.MYMEMORY_DAILY))
+        state["translations"] = cache
+        state["notes"] = notes + [f"translation: {used} characters with {translator.name}"]
     if not state.get("michieki"):
         return state, None, errors
     data = derive(state, now)
@@ -227,10 +235,15 @@ def derive(state, now):
     regional.assign(stations, state.get("chubu", {}), shikoku, Matcher(stations, overrides))
 
     specials = []
+    translations = state.get("translations", {})
     for p in (state.get("apt_specials") or {}).get("posts", []):
         code = pref_code(p["pref"])
         sid = matcher.find([code], p["station"]) if code else None
-        specials.append({**p, "st": sid if sid in by_id else None})
+        sp = {**p, "st": sid if sid in by_id else None}
+        tr = translations.get(p["id"])
+        if tr:
+            sp["tr"] = {k: v for k, v in tr.items() if k != "key"}
+        specials.append(sp)
     for name, day in (state.get("apt_specials") or {}).get("ended", []):
         same = [s for s in specials if norm(s["station"] or "") == norm(name) and s["posted"] <= day]
         if same:
@@ -269,11 +282,15 @@ def main(argv, fetcher=None):
     ap.add_argument("--delay", type=float, default=1.0)
     ap.add_argument("--force", nargs="*", default=[], choices=list(MAX_AGE))
     ap.add_argument("--details", type=int, default=DETAILS_PER_RUN, help="station pages to read this run")
+    ap.add_argument("--no-translate", action="store_true", help="skip translating special tickets")
     args = ap.parse_args(argv)
     os.makedirs(args.out, exist_ok=True)
     fetcher = fetcher or Fetcher(cache_dir=args.cache, delay=args.delay)
     prev = _read(os.path.join(args.out, "state.json"))
-    state, data, errors = build(fetcher, prev, datetime.now(timezone.utc), set(args.force), args.details)
+    translator = None if args.no_translate else translate.backend_from_env()
+    state, data, errors = build(fetcher, prev, datetime.now(timezone.utc), set(args.force), args.details, translator)
+    for n in state.get("notes", []):
+        print("NOTE", n, file=sys.stderr)
     for e in errors:
         print("ERROR", e, file=sys.stderr)
     if data is None:

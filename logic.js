@@ -190,6 +190,98 @@
   // Ticks at a station that the station page has no box for (a special or region no longer listed).
   const uncoveredTicks = (ticks, stationId, shownKeys) => ticks.filter(t => t.st === stationId && !shownKeys.has(tickKey(t)));
 
+  // ---------- where am I ----------
+  function distanceKm(lat1, lng1, lat2, lng2) {
+    const r = Math.PI / 180, R = 6371.0088;
+    const a = Math.sin((lat2 - lat1) * r / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin((lng2 - lng1) * r / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  const nearestStations = (stations, lat, lng, n) => (stations || [])
+    .filter(s => s.lat != null && s.lng != null && !s.gone)
+    .map(st => ({ st, km: distanceKm(lat, lng, st.lat, st.lng) }))
+    .sort((a, b) => a.km - b.km)
+    .slice(0, n || 3);
+
+  // ---------- reading ticket text (from iPhone Live Text or Scan Text) ----------
+  const normName = s => String(s || "").normalize("NFKC").replace(/^\s*道の駅\s*/, "").replace(/[\s・･\/／\-ー〜~★☆]/g, "");
+  function bigrams(s) {
+    const out = new Set();
+    for (let i = 0; i < s.length - 1; i++) out.add(s.slice(i, i + 2));
+    if (!out.size && s) out.add(s);
+    return out;
+  }
+  function similarity(a, b) {
+    const A = bigrams(a), B = bigrams(b);
+    let both = 0;
+    A.forEach(x => { if (B.has(x)) both++; });
+    return A.size + B.size ? 2 * both / (A.size + B.size) : 0;
+  }
+  // Printed text that is never a station name.
+  const NOT_A_NAME = /記念きっぷ|配念|指定券|道の駅|道駅|発券|登録|号車|番.?席|^No|円|税込|永久|ブロック|プロック|連絡線|^KO|^[\d.'*\s]+$|\d{2}\.\s?\d/;
+  const PREF_SHORT = PREFS.map(p => (p === "北海道" ? p : p.replace(/[都府県]$/, "")));
+  const prefsIn = text => PREF_SHORT.map((p, i) => (text.includes(p) ? i + 1 : 0)).filter(Boolean);
+  const isAddress = line => PREF_SHORT.some(p => line.startsWith(p)) && line.length > 5;
+  function readDate(text) {
+    const m = String(text).normalize("NFKC").match(/(?:^|[^\d])(?:20)?(\d{2})\s*[.]\s*(\d{1,2})\s*[.、]\s*(\d{1,2})(?!\d)/);
+    if (!m) return "";
+    const mo = +m[2], d = +m[3];
+    return mo >= 1 && mo <= 12 && d >= 1 && d <= 31 ? `20${m[1]}-${String(mo).padStart(2, "0")}-${String(d).padStart(2, "0")}` : "";
+  }
+
+  // Finds the stations printed on one or more tickets. Returns
+  // [{st, k: "kippu"|"shitei"|"special", r?, sp?, nm?, no, d}] in the order they appear.
+  function readTickets(text, data) {
+    const stations = (data && data.stations) || [], specials = (data && data.specials) || [];
+    const raw = String(text || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const lines = [];
+    for (let i = 0; i < raw.length; i++) {  // a name printed with wide spacing can come out one letter per line
+      if (normName(raw[i]).length === 1 && i + 1 < raw.length && normName(raw[i + 1]).length === 1) { lines.push(raw[i] + raw[i + 1]); i++; }
+      else lines.push(raw[i]);
+    }
+    const found = [];
+    lines.forEach((line, i) => {
+      const n = normName(line);
+      if (n.length < 2 || NOT_A_NAME.test(line) || NOT_A_NAME.test(n) || isAddress(n)) return;
+      const hint = prefsIn(lines.slice(i + 1, i + 4).join(""));
+      const cands = hint.length ? stations.filter(s => hint.includes(s.pref)) : stations;
+      let best = null, score = 0;
+      for (const s of cands) { const v = similarity(n, normName(s.name)); if (v > score) { score = v; best = s; } }
+      if (best && score >= 0.5) found.push({ i, st: best });
+    });
+    const out = [];
+    found.forEach((f, j) => {
+      const until = j + 1 < found.length ? found[j + 1].i : lines.length;
+      const before = lines.slice(Math.max(0, f.i - 4), f.i).join(" "), after = lines.slice(f.i + 1, f.i + 3);
+      const block = lines.slice(f.i + 1, until).join("\n");
+      const t = { st: f.st.id, k: "kippu", no: "", d: "" };
+      const specialLine = after.find(l => /特別|非売品/.test(l));
+      if (/指定券|連絡線/.test(before)) {
+        t.k = "shitei"; t.r = (f.st.shitei || [])[0] || "kyushu";
+        const no = block.match(/No\.?\s*(\d{3,7})/);
+        if (no) t.no = no[1];
+        t.d = readDate(block.split("\n").filter(l => !/登録|開|閉/.test(l)).join("\n"));
+      } else if (specialLine) {
+        t.k = "special";
+        t.nm = specialLine.normalize("NFKC").replace(/\(非売品\)|（非売品）/g, "").trim();
+        let sp = null, best = 0;
+        for (const x of specials.filter(x => x.st === f.st.id)) { const v = similarity(normName(t.nm), normName(x.name || "")); if (v > best) { best = v; sp = x; } }
+        if (sp && best >= 0.6) t.sp = sp.id;
+      }
+      if (!out.some(o => o.st === t.st && o.k === t.k && (o.sp || o.nm) === (t.sp || t.nm))) out.push(t);
+    });
+    // On a single ticket the stamp belongs to it; with several, the dates can't be paired reliably.
+    if (out.length === 1 && out[0].k !== "shitei") out[0].d = readDate(raw.filter(l => !/登録/.test(l)).join("\n"));
+    return out;
+  }
+
+  // A special ticket's text in the chosen language, falling back to a-pt's Japanese field by field.
+  function spText(sp, lang) {
+    const tr = lang && lang !== "ja" && sp.tr && sp.tr[lang];
+    const pick = k => (tr && tr[k] ? tr[k] : sp[k]);
+    return { name: pick("name"), when: pick("when"), cond: pick("cond"), limit: pick("limit"), mail: pick("mail"),
+      phone: pick("phone"), extra: tr && tr.extra ? tr.extra : sp.extra || [], translated: !!tr };
+  }
+
   const validateBackup = obj => !!obj && obj.app === "kippu" && obj.v >= 1 && Array.isArray(obj.ticks);
   const validData = d => !!d && d.v === 1 && Array.isArray(d.stations) && d.stations.length > 0;
   const pickData = (fresh, cached) => (validData(fresh) ? fresh : validData(cached) ? cached : null);
@@ -197,5 +289,5 @@
 
   window.K = { PREFS, BLOCKS, REGIONS_SHITEI, REGIONS_CARD, blockOf, prefCode, jst, openState, selling,
     indexStations, resolveStation, orphanTicks, tickKey, addTick, removeTick, progress, addDays, specialWindow,
-    upcomingSpecials, mergeBackup, canonicalTicks, uncoveredTicks, validateBackup, pickData, newId };
+    upcomingSpecials, mergeBackup, canonicalTicks, uncoveredTicks, distanceKm, nearestStations, readTickets, readDate, spText, validateBackup, pickData, newId };
 })();
