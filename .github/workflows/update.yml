@@ -35,6 +35,8 @@ jobs:
 
       - name: Read the sites
         id: build
+        env:
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
         run: |
           set +e
           python build.py --out out
