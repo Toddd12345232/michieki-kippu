@@ -135,15 +135,18 @@ window.KIPPU_LANGS = {
   "read_save": "Save {n} tickets",
   "read_saved": "{n} tickets saved.",
   "nearby_setting": "Show the 道の駅 I'm at",
-  "nearby_hint": "Uses your location when the app opens. It stays on your phone.",
+  "nearby_hint": "Adds a 📍 button on Home. Your location is only used when you tap it, and stays on your phone.",
   "show_original": "Machine translated · show Japanese",
   "here_finding": "Finding where you are…",
-  "here_denied": "Location is off for this app. To see the 道の駅 you're at, go to Settings > Privacy & Security > Location Services > Safari Websites and choose While Using the App.",
+  "here_denied": "The iPhone didn't let this app use your location. If it works in Safari but not here, remove きっぷ帳 from the Home Screen and add it again from Safari (export a backup first), then tap the 📍 button and choose Allow.",
   "here_unavailable": "Couldn't get your location.",
   "try_again": "Try again",
   "paste_btn": "Paste ticket text",
   "read_or_type": "Or paste or type into a box",
-  "paste_failed": "Couldn't paste. Tap the box below, then choose Paste."
+  "paste_failed": "Couldn't paste. Tap the box below, then choose Paste.",
+  "find_me": "Find the 道の駅 I'm at",
+  "find_again": "Check again",
+  "add_date": "Add date"
  },
  "zh-Hant": {
   "settings": "設定",
@@ -279,15 +282,18 @@ window.KIPPU_LANGS = {
   "read_save": "儲存 {n} 張",
   "read_saved": "已儲存 {n} 張。",
   "nearby_setting": "顯示我所在的道之驛",
-  "nearby_hint": "開啟 App 時會使用你的位置，資料只留在手機上。",
+  "nearby_hint": "在主頁加入 📍 按鈕。只有按下時才會使用你的位置，資料只留在手機上。",
   "show_original": "機器翻譯 · 顯示日文原文",
   "here_finding": "正在尋找你的位置…",
-  "here_denied": "這個 App 的定位已關閉。如要顯示你所在的道之驛，請前往「設定」>「私隱與安全性」>「定位服務」>「Safari 網站」，選擇「使用 App 期間」。",
+  "here_denied": "iPhone 沒有讓這個 App 使用你的位置。如果在 Safari 可以、在這裏不行，請把きっぷ帳從主畫面移除，再從 Safari 重新加入（先匯出備份），然後按 📍 按鈕並選「允許」。",
   "here_unavailable": "無法取得你的位置。",
   "try_again": "再試一次",
   "paste_btn": "貼上票券文字",
   "read_or_type": "或者在方格內貼上或輸入",
-  "paste_failed": "無法貼上。請按下面的方格，再選「貼上」。"
+  "paste_failed": "無法貼上。請按下面的方格，再選「貼上」。",
+  "find_me": "尋找我所在的道之驛",
+  "find_again": "再找一次",
+  "add_date": "加入日期"
  },
  "ja": {
   "settings": "設定",
@@ -423,15 +429,18 @@ window.KIPPU_LANGS = {
   "read_save": "{n}枚を保存",
   "read_saved": "{n}枚を保存しました。",
   "nearby_setting": "いる道の駅を表示",
-  "nearby_hint": "アプリを開いたときに現在地を使います。情報は端末の中だけに残ります。",
+  "nearby_hint": "ホームに📍ボタンを追加します。位置情報はボタンを押したときだけ使い、端末の中だけに残ります。",
   "show_original": "機械翻訳 · 原文を表示",
   "here_finding": "現在地を確認中…",
-  "here_denied": "このアプリの位置情報がオフです。いる道の駅を表示するには、「設定」>「プライバシーとセキュリティ」>「位置情報サービス」>「Safariのウェブサイト」で「このAppの使用中」を選んでください。",
+  "here_denied": "iPhoneがこのアプリに位置情報の使用を許可しませんでした。Safariでは使えてここで使えない場合は、きっぷ帳をホーム画面から削除してSafariから追加し直し（先にバックアップを書き出してください）、📍ボタンを押して「許可」を選んでください。",
   "here_unavailable": "現在地を取得できませんでした。",
   "try_again": "もう一度",
   "paste_btn": "きっぷの文字を貼り付け",
   "read_or_type": "または入力欄に貼り付け・入力",
-  "paste_failed": "貼り付けできませんでした。下の入力欄を押して「ペースト」を選んでください。"
+  "paste_failed": "貼り付けできませんでした。下の入力欄を押して「ペースト」を選んでください。",
+  "find_me": "いる道の駅を探す",
+  "find_again": "もう一度探す",
+  "add_date": "日付を追加"
  },
  "ko": {
   "settings": "설정",
@@ -567,14 +576,17 @@ window.KIPPU_LANGS = {
   "read_save": "{n}장 저장",
   "read_saved": "{n}장을 저장했습니다.",
   "nearby_setting": "내가 있는 미치노에키 표시",
-  "nearby_hint": "앱을 열 때 위치를 사용합니다. 정보는 휴대폰에만 남습니다.",
+  "nearby_hint": "홈에 📍 버튼을 추가합니다. 위치는 버튼을 누를 때만 사용하며 휴대폰에만 남습니다.",
   "show_original": "기계 번역 · 일본어 원문 보기",
   "here_finding": "위치를 찾는 중…",
-  "here_denied": "이 앱의 위치 접근이 꺼져 있습니다. 내가 있는 미치노에키를 보려면 설정 > 개인정보 보호 및 보안 > 위치 서비스 > Safari 웹 사이트에서 '앱을 사용하는 동안'을 선택하세요.",
+  "here_denied": "iPhone이 이 앱의 위치 사용을 허용하지 않았습니다. Safari에서는 되는데 여기서 안 된다면 きっぷ帳을 홈 화면에서 지우고 Safari에서 다시 추가한 뒤(먼저 백업 내보내기) 📍 버튼을 누르고 '허용'을 선택하세요.",
   "here_unavailable": "위치를 가져올 수 없습니다.",
   "try_again": "다시 시도",
   "paste_btn": "티켓 글자 붙여넣기",
   "read_or_type": "또는 입력란에 붙여넣거나 입력",
-  "paste_failed": "붙여넣을 수 없습니다. 아래 입력란을 누른 뒤 '붙여넣기'를 선택하세요."
+  "paste_failed": "붙여넣을 수 없습니다. 아래 입력란을 누른 뒤 '붙여넣기'를 선택하세요.",
+  "find_me": "내가 있는 미치노에키 찾기",
+  "find_again": "다시 찾기",
+  "add_date": "날짜 추가"
  }
 };

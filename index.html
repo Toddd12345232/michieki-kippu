@@ -86,8 +86,12 @@
   .ck.dim .t{color:var(--sub)}
   .fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 0 38px}
   .fields .full{grid-column:1/-1}
-  .fields label{display:block;font-size:12px;color:var(--sub)}
-  .fields input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:2px}
+  .fields label{display:block;font-size:12px;color:var(--sub);min-width:0}
+  .fields input{width:100%;min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;display:block;min-height:34px;
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:2px;font-size:15px;color:var(--ink)}
+  .fields input::-webkit-date-and-time-value{text-align:left}
+  .adddate{display:block;width:100%;min-height:34px;margin-top:2px;border:1px dashed var(--grey);border-radius:8px;background:none;
+    color:var(--brand);font-size:14px;text-align:left;padding:6px 8px;cursor:pointer}
   .linkbtn{background:none;border:0;color:var(--sub);font-size:12.5px;text-decoration:underline;padding:4px 0 0 38px;cursor:pointer}
   .empty{color:var(--sub);text-align:center;padding:40px 10px}
   .note{background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:10px 12px;margin:0 0 10px;font-size:13.5px}
@@ -148,7 +152,7 @@
 <script src="logic.js"></script>
 <script>
 "use strict";
-const APP_VERSION = 4;
+const APP_VERSION = 5;
 const DEFAULT_DATA_URL = "https://raw.githubusercontent.com/Toddd12345232/michieki-kippu/data/data.json";
 const APT_SPECIALS_URL = "https://www.a-pt.co.jp/%E7%89%B9%E5%88%A5%E8%A8%98%E5%BF%B5%E3%81%8D%E3%81%A3%E3%81%B7-%E9%85%8D%E5%B8%83%E6%96%B9%E6%B3%95/";
 const DATA_CACHE = "kippu-data";
@@ -273,11 +277,15 @@ function agoText(iso){
   return n <= 0 ? t("updated_today") : n === 1 ? t("updated_1day") : t("updated_days", { n });
 }
 
+// An empty date shows "+ Add date"; the iPhone would otherwise show today's date in grey for an empty box.
+function dateField(value, attrs){
+  return value ? `<input type="date" ${attrs} value="${esc(value)}">` : `<button type="button" class="adddate" data-adddate ${attrs}>＋ ${esc(t("add_date"))}</button>`;
+}
+
 // ---------- where am I ----------
-let lastLocate = 0;
 function findMe(){
-  if (!state.settings.nearby || !navigator.geolocation || Date.now() - lastLocate < 2 * 60 * 1000) return;
-  lastLocate = Date.now();
+  if (!state.settings.nearby || !navigator.geolocation) return;
+  state.hereAsked = true;
   const redraw = () => { if (!state.station && state.settings.tab === "home") safeRender(); };
   navigator.geolocation.getCurrentPosition(pos => {
     state.here = { lat: pos.coords.latitude, lng: pos.coords.longitude }; state.hereError = null; redraw();
@@ -362,19 +370,22 @@ function quickTicks(st){
 }
 function hereCard(){
   if (!state.settings.nearby || !state.data || !navigator.geolocation) return "";
-  const v = K.hereView(state.data.stations, state.here, state.hereError);
+  const v = K.hereView(state.data.stations, state.here, state.hereError, state.hereAsked);
   const retry = `<button class="btn" style="margin-top:6px" data-locate-retry>${esc(t("try_again"))}</button>`;
+  if (v.kind === "ask") return `<button class="btn wide" style="margin:0 0 10px;background:var(--ok-soft);color:var(--ok)" data-locate-retry>📍 ${esc(t("find_me"))}</button>`;
   if (v.kind === "waiting") return `<div class="card sub">📍 ${esc(t("here_finding"))}</div>`;
   if (v.kind === "denied") return `<div class="note">📍 ${esc(t("here_denied"))}<br>${retry}</div>`;
   if (v.kind === "unavailable") return `<div class="card"><span class="sub">📍 ${esc(t("here_unavailable"))}</span><br>${retry}</div>`;
   const { a, b } = v;
-  if (v.kind === "nearest") return `<div class="card"><button class="linkrow" style="padding:0" data-open="${esc(a.st.id)}">📍 ${esc(t("nearest", { name: a.st.name, dist: distText(a.km) }))} ›</button></div>`;
+  const again = `<button class="linkrow" data-locate-retry>📍 ${esc(t("find_again"))}</button>`;
+  if (v.kind === "nearest") return `<div class="card"><button class="linkrow" style="padding:0" data-open="${esc(a.st.id)}">📍 ${esc(t("nearest", { name: a.st.name, dist: distText(a.km) }))} ›</button>${again}</div>`;
   return `<div class="card here">
     <div class="lbl" style="margin:0 0 2px;text-transform:none">📍 ${esc(t("here_title", { dist: distText(a.km) }))}</div>
     <button class="back" style="padding:0;font-size:20px;font-weight:700;color:var(--ink)" data-open="${esc(a.st.id)}">道の駅 ${esc(a.st.name)}</button>
     <div class="sub">${hoursLine(a.st) || esc(prefName(a.st.pref))}</div>
     ${quickTicks(a.st)}
     ${b ? `<button class="linkrow" data-open="${esc(b.st.id)}">${esc(t("next_nearest", { name: b.st.name, dist: distText(b.km) }))} ›</button>` : ""}
+    ${again}
   </div>`;
 }
 
@@ -434,7 +445,7 @@ function renderStations(){
 function tickRow(st, o, title, sub, extra){
   const tk = findTick(st.id, o.k, o.r, o.sp), key = [o.k, o.r || "", o.sp || ""].join("|");
   const fields = tk ? `<div class="fields">
-      <label>${esc(t("date"))}<input type="date" data-field="d" data-tid="${esc(tk.id)}" value="${esc(tk.d || "")}"></label>
+      <label>${esc(t("date"))}${dateField(tk.d, `data-field="d" data-tid="${esc(tk.id)}"`)}</label>
       <label>${esc(t("ticket_no"))}<input inputmode="numeric" data-field="no" data-tid="${esc(tk.id)}" value="${esc(tk.no || "")}"></label>
       <label class="full">${esc(t("note"))}<input data-field="note" data-tid="${esc(tk.id)}" value="${esc(tk.note || "")}"></label></div>` : "";
   return `<div class="ck ${extra && extra.dim ? "dim" : ""}"><label><input type="checkbox" data-tick="${esc(key)}" ${tk ? "checked" : ""}>
@@ -688,7 +699,7 @@ function renderRead(){
     return `<div class="ck"><label><input type="checkbox" data-readpick="${i}" ${x.pick ? "checked" : ""}>
       <div><div class="t">道の駅 ${esc(st ? st.name : x.st)}${had ? ` <span class="tag ok">${esc(t("read_already"))}</span>` : ""}</div>
       <div class="sub">${esc(readLabel(x))} · ${esc(st ? prefName(st.pref) : "")}</div></div></label>
-      <div class="fields"><label>${esc(t("date"))}<input type="date" data-readfield="d" data-i="${i}" value="${esc(x.d || "")}"></label>
+      <div class="fields"><label>${esc(t("date"))}${dateField(x.d, `data-readfield="d" data-i="${i}"`)}</label>
       <label>${esc(t("ticket_no"))}<input inputmode="numeric" data-readfield="no" data-i="${i}" value="${esc(x.no || "")}"></label></div></div>`;
   }).join("");
   const n = state.read.filter(x => x.pick).length;
@@ -706,6 +717,16 @@ async function pasteTickets(quiet){
   state.readText = text;
   state.read = found.map(x => Object.assign(x, { pick: !findTick(x.st, x.k, x.r, x.sp) }));
   refreshSheet();
+}
+// "+ Add date": put a date box in its place, set to today and saved, ready to change.
+function addDate(btn){
+  const input = document.createElement("input");
+  input.type = "date";
+  for (const a of btn.attributes) if (a.name.startsWith("data-") && a.name !== "data-adddate") input.setAttribute(a.name, a.value);
+  input.value = today();
+  btn.replaceWith(input);
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+  input.focus();
 }
 function saveRead(){
   const add = [], custom = state.custom.slice();
@@ -799,6 +820,8 @@ $("#sheetClose").onclick = closeSheet;
 $("#sheet").addEventListener("click", e => { if (e.target.id === "sheet") closeSheet(); });
 $("#importFile").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; if (f) importBackup(f); });
 $("#sheetBody").addEventListener("click", e => {
+  const add = e.target.closest("[data-adddate]");
+  if (add){ addDate(add); return; }
   const el = e.target.closest("[data-act]");
   if (!el) return;
   const act = el.dataset.act;
@@ -818,7 +841,7 @@ $("#sheetBody").addEventListener("change", e => {
   if (el.dataset.act === "cards"){ state.settings.cards = el.checked; save(); }
   if (el.dataset.readpick !== undefined){ state.read[+el.dataset.readpick].pick = el.checked; refreshSheet(); }
   if (el.dataset.readfield){ state.read[+el.dataset.i][el.dataset.readfield] = el.value.trim(); }
-  if (el.dataset.act === "nearby"){ state.settings.nearby = el.checked; save(); if (el.checked){ lastLocate = 0; findMe(); } else state.here = null; }
+  if (el.dataset.act === "nearby"){ state.settings.nearby = el.checked; save(); if (!el.checked){ state.here = null; state.hereAsked = false; } }
   if (el.dataset.act === "lang"){ LANG = state.settings.lang = el.value; save(); applyStaticText(); refreshSheet(); }
   if (el.dataset.act === "qpref"){ state.settings.pref = +el.value; save(); refreshSheet(); }
   if (el.dataset.q){
@@ -838,7 +861,9 @@ $("#sheetBody").addEventListener("change", e => {
 // ---------- screen events ----------
 $("#view").addEventListener("click", e => {
   if (e.target.closest("[data-read]")){ state.read = null; openSheet("read"); pasteTickets(true); return; }
-  if (e.target.closest("[data-locate-retry]")){ lastLocate = 0; state.hereError = null; render(); findMe(); return; }
+  if (e.target.closest("[data-locate-retry]")){ state.here = null; state.hereError = null; findMe(); render(); return; }
+  const add = e.target.closest("[data-adddate]");
+  if (add){ addDate(add); return; }
   const el = e.target.closest("[data-open],[data-go],[data-back],[data-block],[data-pref],[data-spblock],[data-sppref],[data-spmore],[data-mapfilter],[data-locate],[data-notsold],[data-addsp],[data-rmcustom]");
   if (!el) return;
   const s = state.settings, ds = el.dataset;
@@ -901,7 +926,6 @@ $("#view").addEventListener("focusout", () => {
   setTimeout(() => { if (state.pendingRender && !(document.activeElement && document.activeElement.matches("#view input"))){ state.pendingRender = false; render(); } }, 0);
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") findMe();
   if (document.visibilityState === "visible" && Date.now() - lastFetch > 3600 * 1000) loadData();
 });
 window.addEventListener("online", () => { if (Date.now() - lastFetch > 10 * 60 * 1000) loadData(); });
@@ -918,7 +942,6 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 
 render();
 loadData();
-findMe();
 </script>
 </body>
 </html>

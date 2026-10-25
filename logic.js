@@ -202,9 +202,11 @@
     .sort((a, b) => a.km - b.km)
     .slice(0, n || 3);
 
-  // What Home shows about location: the station you're at, the nearest one, or why there's no location.
-  // `error` is the browser's code: 1 = not allowed, 2 = unavailable, 3 = timed out.
-  function hereView(stations, here, error) {
+  // What Home shows about location: a button to ask, the station you're at, the nearest one, or why there's
+  // no location. Location is only looked up after a tap (`asked`): iPhone home-screen apps that ask by
+  // themselves get refused and stay refused. `error` is the browser's code: 1 = not allowed, 2 = unavailable, 3 = timed out.
+  function hereView(stations, here, error, asked) {
+    if (!asked) return { kind: "ask" };
     if (!here) return { kind: error === 1 ? "denied" : error ? "unavailable" : "waiting" };
     const [a, b] = nearestStations(stations, here.lat, here.lng, 2);
     if (!a) return { kind: "unavailable" };
