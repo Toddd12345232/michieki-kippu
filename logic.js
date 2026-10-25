@@ -202,6 +202,15 @@
     .sort((a, b) => a.km - b.km)
     .slice(0, n || 3);
 
+  // What Home shows about location: the station you're at, the nearest one, or why there's no location.
+  // `error` is the browser's code: 1 = not allowed, 2 = unavailable, 3 = timed out.
+  function hereView(stations, here, error) {
+    if (!here) return { kind: error === 1 ? "denied" : error ? "unavailable" : "waiting" };
+    const [a, b] = nearestStations(stations, here.lat, here.lng, 2);
+    if (!a) return { kind: "unavailable" };
+    return a.km <= 1 ? { kind: "here", a, b } : { kind: "nearest", a };
+  }
+
   // ---------- reading ticket text (from iPhone Live Text or Scan Text) ----------
   const normName = s => String(s || "").normalize("NFKC").replace(/^\s*道の駅\s*/, "").replace(/[\s・･\/／\-ー〜~★☆]/g, "");
   function bigrams(s) {
@@ -289,5 +298,5 @@
 
   window.K = { PREFS, BLOCKS, REGIONS_SHITEI, REGIONS_CARD, blockOf, prefCode, jst, openState, selling,
     indexStations, resolveStation, orphanTicks, tickKey, addTick, removeTick, progress, addDays, specialWindow,
-    upcomingSpecials, mergeBackup, canonicalTicks, uncoveredTicks, distanceKm, nearestStations, readTickets, readDate, spText, validateBackup, pickData, newId };
+    upcomingSpecials, mergeBackup, canonicalTicks, uncoveredTicks, distanceKm, nearestStations, hereView, readTickets, readDate, spText, validateBackup, pickData, newId };
 })();

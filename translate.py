@@ -1,14 +1,13 @@
 """Translate special-ticket posts from Japanese into English, Traditional Chinese and Korean.
 
-Uses DeepL when the DEEPL_API_KEY secret is set (better, needs a free DeepL account),
-otherwise the free MyMemory service (no account, 5,000 characters a day).
+Uses the free MyMemory service (no account, 5,000 characters a day). DeepL was considered and
+dropped on 25 Oct 2026: it is no longer free (a one-time 1,000,000-character credit, then paid).
 Each post is translated once; the result is kept in state.json with a fingerprint of
 the Japanese, so a post a-pt edits is translated again.
 """
 import hashlib
 import html
 import json
-import os
 import re
 from datetime import timedelta
 
@@ -17,7 +16,6 @@ import requests
 TARGETS = ("en", "zh-Hant", "ko")
 FIELDS = ("name", "when", "cond", "limit", "mail", "phone")
 WINDOW_DAYS = 180          # older posts are history: left in Japanese
-DEEPL_DAILY = 15000        # 500,000 a month on DeepL API Free
 MYMEMORY_DAILY = 4500      # 5,000 a day without an account
 CHUNK = 160                # MyMemory takes up to 500 bytes a request
 
@@ -65,28 +63,8 @@ class MyMemory:
                 for text in ["\n".join(chunks(t)) for t in texts]]
 
 
-class DeepL:
-    name = "DeepL"
-    budget = DEEPL_DAILY
-    LANG = {"en": "EN-GB", "zh-Hant": "ZH-HANT", "ko": "KO"}
-
-    def __init__(self, key, session=None):
-        self.key = key
-        self.url = ("https://api-free.deepl.com" if key.endswith(":fx") else "https://api.deepl.com") + "/v2/translate"
-        self.session = session or requests.Session()
-
-    def translate(self, texts, target):
-        r = self.session.post(self.url, headers={"Authorization": f"DeepL-Auth-Key {self.key}"},
-                              data=[("source_lang", "JA"), ("target_lang", self.LANG[target])] + [("text", t) for t in texts],
-                              timeout=60)
-        if r.status_code != 200:
-            raise TranslateError(f"DeepL: HTTP {r.status_code}")
-        return [x["text"] for x in r.json()["translations"]]
-
-
 def backend_from_env():
-    key = os.environ.get("DEEPL_API_KEY", "").strip()
-    return DeepL(key) if key else MyMemory()
+    return MyMemory()
 
 
 def source_texts(post):
