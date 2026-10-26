@@ -15092,6 +15092,14 @@
   },
   {
    "prefs": [
+    8
+   ],
+   "name": "奥久慈だいごWEST",
+   "raw": "'26.11/1～販売開始",
+   "status": "selling"
+  },
+  {
+   "prefs": [
     9
    ],
    "name": "もてぎ",
@@ -22342,6 +22350,70 @@
  "apt_specials": {
   "posts": [
    {
+    "posted": "2026-10-26",
+    "pref": "北海道",
+    "station": "サラブレッドロード新冠",
+    "name": "一万番突破特別記念きっぷ",
+    "when": "11/1 10:00～なくなり次第終了",
+    "cond": "物販1000円以上購入の方に1枚",
+    "limit": "配布枚数制限なし",
+    "mail": "NG",
+    "phone": "NG",
+    "extra": [],
+    "id": "52916042da",
+    "start": "2026-11-01",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-26",
+    "pref": "愛知県",
+    "station": "にしお岡ノ山",
+    "name": "開駅17周年記念きっぷ",
+    "when": "11/1 9:00～なくなり次第終了",
+    "cond": "物販500円以上購入のお客様に1枚",
+    "limit": "配布枚数制限なし",
+    "mail": "NG",
+    "phone": "OK",
+    "extra": [],
+    "id": "930a0d44ce",
+    "start": "2026-11-01",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-26",
+    "pref": "長野県",
+    "station": "信越さかえ",
+    "name": "またたび祭開催記念きっぷ",
+    "when": "11/1 9:00～なくなり次第終了",
+    "cond": "またたび館にて物販1000円以上購入の方",
+    "limit": "配布枚数制限なし",
+    "mail": "NG",
+    "phone": "NG",
+    "extra": [],
+    "id": "6e1ba12582",
+    "start": "2026-11-01",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-26",
+    "pref": "福井県",
+    "station": "越前",
+    "name": "12周年記念きっぷ",
+    "when": "11/1 9:00～なくなり次第終了",
+    "cond": "物販500円以上購入の方に1枚",
+    "limit": "配布枚数制限なし",
+    "mail": "NG(郵送いたしません)",
+    "phone": "OK",
+    "extra": [],
+    "id": "65cf08caa8",
+    "start": "2026-11-01",
+    "end": null,
+    "ended": null
+   },
+   {
     "posted": "2026-10-23",
     "pref": "群馬県",
     "station": "オアシスなんもく",
@@ -22741,7 +22813,9 @@
     "mail": "NG",
     "phone": "NG",
     "extra": [
-     "※各日100枚づつ配布"
+     "※各日100枚づつ配布",
+     "｢道の駅",
+     "南えちぜん山海里 ｣ 様は配布終了となっております 2026年10/26 現在"
     ],
     "id": "eab0d7237c",
     "start": "2026-10-10",
@@ -32739,6 +32813,10 @@
     "2025-11-06"
    ],
    [
+    "雷電くるみの里",
+    "2026-10-26"
+   ],
+   [
     "飛鳥",
     "2026-07-16"
    ],
@@ -40561,23 +40639,269 @@
    "hours": "8:30～18:00 レストラン 11:00～15:00 軽食喫茶 10:00～11：00、15:00～16:00",
    "closed": "不定休、3/31",
    "at": "2026-10-25T21:18:31+00:00"
+  },
+  "698": {
+   "yomi": "ひゅうが",
+   "hours": "9:00～18:00(4～10月は19:00まで)",
+   "closed": "12/31～1/1",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "699": {
+   "yomi": "たかちほ",
+   "hours": "9:30～19:00(12～2月は18:00まで) レストラン 10:00～17:300(12～2月は17:00まで)",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "782": {
+   "yomi": "ふぇにっくす",
+   "hours": "8:30～18:00 レストラン堀切 9:00～17:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "996": {
+   "yomi": "つの",
+   "hours": "8:30～18:00(10～3月17:30まで) フードコート 10:30～18:00(10～3月17:30まで)",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "997": {
+   "yomi": "えびの",
+   "hours": "9:00～18:00 レストラン 11:00～15:00",
+   "closed": "第3火曜、1/1～1/2",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1040": {
+   "yomi": "きたかたよっちみろや",
+   "hours": "8:00～19:00(10～3月は18:30まで)",
+   "closed": "火曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1183": {
+   "yomi": "くしま",
+   "hours": null,
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1209": {
+   "yomi": "きたごう",
+   "hours": "物産館 9:00～18:00 レストラン 11:00～15:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "634": {
+   "yomi": "きいれ",
+   "hours": "10:00～21:00",
+   "closed": "第2月曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "635": {
+   "yomi": "きりしま",
+   "hours": "9:00～17:15(11～3月は17:00まで)",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "636": {
+   "yomi": "ひわき",
+   "hours": "8:30～18:30(10～3月は9:00～18:00) レストラン 9:00～16:00",
+   "closed": "第1,3水曜、1/1、1/5",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "637": {
+   "yomi": "まつやま",
+   "hours": "9:00～18:00",
+   "closed": "第4月曜、1/1",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "638": {
+   "yomi": "あくね",
+   "hours": "9:00～19:00(10～3月は18:00まで) 喫茶 10:30～15:00 レストラン 10:30～15:00",
+   "closed": "年中無休(レストランのみ12/31～1/1休み)",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "639": {
+   "yomi": "ながしま",
+   "hours": "8:30～18:30(10～3月は9:00～18:00) 魚島 11:00～15:00、17:30～22:00 喫茶 11:00～15:00",
+   "closed": "1/1 レストラン 不定休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "640": {
+   "yomi": "くにのまつばらおおさき",
+   "hours": "7:00～21:00 レストラン 11:00～21:00",
+   "closed": "第3火曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "641": {
+   "yomi": "ねじめ",
+   "hours": "8:30～17:00 売店 9:00～18:00 レストラン 11:00～14:00",
+   "closed": "12/31～1/3",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "642": {
+   "yomi": "かわなべやすらぎのさと",
+   "hours": "物産館 8:00～19:00(12～3月は9:00～16:00) レストラン 11:00～18:00",
+   "closed": "1/1",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "643": {
+   "yomi": "あまみおおしますみよう",
+   "hours": "9:30～18:00(※12/31,1/1は16:00まで) レストラン 10:00～18:00 体験施設 10:00～16:00 博物館・美術館 9:30～18:00",
+   "closed": "無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "644": {
+   "yomi": "さくらじま",
+   "hours": "9:00～18:00 レストラン 9:00～17:00",
+   "closed": "第3月曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "645": {
+   "yomi": "きんぽうこのはなかん",
+   "hours": "9:00～18:00 レストラン 9:30～15:00",
+   "closed": "1/1～1/3",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "700": {
+   "yomi": "おおすみやごろうでんせつのさと",
+   "hours": "9:00～19:00 レストラン 11:00～19:00",
+   "closed": "物産館・レストラン以外第2,4木曜 1/1",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "783": {
+   "yomi": "たからべ",
+   "hours": "9:00～19:00 食堂 11:00～16:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "784": {
+   "yomi": "いぶすき",
+   "hours": "8:30～18:30(10～3月は18:00まで) 小牧そば茶屋 11:00～18:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "785": {
+   "yomi": "たるみず",
+   "hours": "9:00～21:00 レストラン館 11:00～17:00(土日祝は20:00まで)",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "830": {
+   "yomi": "すえよし",
+   "hours": "9:00～19:00 レストラン四季祭 11:00～15:00、18:00～21:00(夜は水曜休み)",
+   "closed": "1/1",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "937": {
+   "yomi": "くろのせとだんだんいちば",
+   "hours": "9:00～18:00",
+   "closed": "1/1～1/2",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "978": {
+   "yomi": "やまがわみなといおかいどう",
+   "hours": "8:30～18:00 レストラン 11:00～15:00",
+   "closed": "第3水曜、1/1～2",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1016": {
+   "yomi": "きんこうにしきのさと",
+   "hours": "9:00～18:00",
+   "closed": "1/1～1/3",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1041": {
+   "yomi": "のがたあらさの",
+   "hours": "ローソン 24時間",
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1148": {
+   "yomi": "たるみずはまびら",
+   "hours": "9:00～18:30(夏季・冬季営業時間変更有)",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1218": {
+   "yomi": "とくのしま",
+   "hours": null,
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "646": {
+   "yomi": "きょだ",
+   "hours": "8:30～19:00 レストラン 10:00～19:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "647": {
+   "yomi": "おおぎみ",
+   "hours": "8:30～17:30(土日祝は18:00まで) 食堂 11:30～17:00 喫茶店 11:00～15:00",
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "648": {
+   "yomi": "ゆいゆいくにがみ",
+   "hours": "9:00～18:00 直売所 9:00～17:30 レストランくいな 11:00～17:00 わぁ～家～ 11:00～19:00 まるとみ鮮魚 10:00～19:00 パーラーゆんたく 10:00～18:00",
+   "closed": "無休 まるとみ鮮魚 月曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "742": {
+   "yomi": "かでな",
+   "hours": "9:00～19:00 レストラン 9:00～23:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "845": {
+   "yomi": "きなばんしょ",
+   "hours": "9:00～18:00",
+   "closed": "月曜",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "888": {
+   "yomi": "とよさき",
+   "hours": "9:00～19:00 情報ステーション 9:00～19:00(土日祝18:00まで)",
+   "closed": "無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "903": {
+   "yomi": "いとまん",
+   "hours": "9:00～20:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1042": {
+   "yomi": "ぎのざ",
+   "hours": "9:00～19:00",
+   "closed": "年中無休",
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1176": {
+   "yomi": "さんらいずひがし",
+   "hours": "9:00～18:00",
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
+  },
+  "1196": {
+   "yomi": "やんばるぱいなっぷるのおかあは",
+   "hours": null,
+   "closed": null,
+   "at": "2026-10-26T21:25:34+00:00"
   }
  },
  "sources": {
   "michieki": "2026-10-21T13:50:29+00:00",
-  "apt_status": "2026-10-25T21:18:31+00:00",
-  "apt_specials": "2026-10-25T21:18:31+00:00",
-  "apt_notices": "2026-10-25T21:18:31+00:00",
+  "apt_status": "2026-10-26T21:25:34+00:00",
+  "apt_specials": "2026-10-26T21:25:34+00:00",
+  "apt_notices": "2026-10-26T21:25:34+00:00",
   "chubu": "2026-10-21T13:50:29+00:00",
-  "details": "2026-10-25T21:18:31+00:00"
+  "details": "2026-10-26T21:25:34+00:00"
  },
  "aliases": {},
  "aptonly": [
   "apt-31-ほうじょう"
  ],
  "notes": [
-  "translation: daily allowance reached (4161 characters); the rest continues tomorrow",
-  "translation: 4161 characters with MyMemory"
+  "translation: daily allowance reached (4347 characters); the rest continues tomorrow",
+  "translation: 4347 characters with MyMemory"
  ],
  "translations": {
   "7533c04c57": {
@@ -41193,14 +41517,16 @@
    }
   },
   "eab0d7237c": {
-   "key": "44632b34e3cf",
+   "key": "3438d44d94d5",
    "en": {
     "name": "Top 10,000 Special Anniversary Ticket",
     "when": "10/10 - 12 each day 9:00 - as soon as it runs out",
     "cond": "1 per receipt for purchases of ¥1000 or more throughout the building",
     "limit": "Up to 1 sheet per person",
     "extra": [
-     "* Distribution of 100 sheets per day"
+     "* Distribution of 100 sheets per day",
+     "Roadside station",
+     "\"Minamiechizen Sankai-ri\" has been discontinued as of October 26, 2026"
     ]
    },
    "zh-Hant": {
@@ -41209,7 +41535,9 @@
     "cond": "在整棟建築物內消費滿1000日圓，每張收據1張",
     "limit": "每人最多1張",
     "extra": [
-     "*每天分配100張"
+     "*每天分配100張",
+     "「路邊車站",
+     "「Minamiechizen Sankai-ri」已於2026年10月26日停產"
     ]
    },
    "ko": {
@@ -41218,7 +41546,9 @@
     "cond": "건물 전체에서 ¥ 1000 이상 구매 시 영수증당 1개",
     "limit": "1인당 최대 1매",
     "extra": [
-     "* 1일 100장 배부"
+     "* 1일 100장 배부",
+     "“Roadside Station",
+     "'미나미에치젠 산카이리' 는 2026년 10월 26일부로 중단되었습니다."
     ]
    }
   },
@@ -42426,6 +42756,477 @@
      "* 8월 9일 (일) 오전 8시 30분부터 번호가 매겨진 티켓은 601번부터 610번까지 배부됩니다.",
      "* 배포 번호는 № 601 ~ № 750 (및 전날의 나머지) 입니다."
     ]
+   }
+  },
+  "52916042da": {
+   "key": "3dc215854925",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "11/1 10:00 ~ as soon as it runs out",
+    "cond": "1 for purchases over 1000 yen",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "11/1 10:00 ~用完即可",
+    "cond": "1次購買金額超過1000日圓",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "11/1 10:00 ~ 소진되자마자",
+    "cond": "1000엔 이상 구매 시 1개",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "930a0d44ce": {
+   "key": "427e67f0b2e8",
+   "en": {
+    "name": "Station 17th Anniversary Ticket",
+    "when": "11/1 9:00 - as soon as it runs out",
+    "cond": "1 for customers who purchase more than 500 yen",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "太空站17周年門票",
+    "when": "11/1 9:00 -一旦用完",
+    "cond": "1對於購買超過500日圓的客戶",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "스테이션 17주년 기념 티켓",
+    "when": "11/1 9:00 - 소진되자마자",
+    "cond": "1 500엔 이상 구매 고객 대상",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "6e1ba12582": {
+   "key": "ed5701c13bde",
+   "en": {
+    "name": "Festival again commemorative ticket",
+    "when": "11/1 9:00 - as soon as it runs out",
+    "cond": "Those who purchase goods for more than 1000 yen at the museum again",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "又一場音樂節紀念券",
+    "when": "11/1 9:00 -一旦用完",
+    "cond": "再次在博物館以超過1000日元的價格購買商品的人",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "FESTIVAL AGAIN 기념 티켓",
+    "when": "11/1 9:00 - 소진되자마자",
+    "cond": "박물관에서 1000엔 이상 물품을 재구매 하시는 분",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "65cf08caa8": {
+   "key": "0351656ef7ab",
+   "en": {
+    "name": "12th Anniversary Ticket",
+    "when": "11/1 9:00 - as soon as it runs out",
+    "cond": "1 for purchases over 500 yen",
+    "limit": "No limit on the number of copies distributed",
+    "mail": "NG (not mailed)"
+   },
+   "zh-Hant": {
+    "name": "十二周年門票",
+    "when": "11/1 9:00 -一旦用完",
+    "cond": "購買金額超過500日圓者1張",
+    "limit": "發佈的份數沒有限制",
+    "mail": "NG （未郵寄）"
+   },
+   "ko": {
+    "name": "12주년 기념 티켓",
+    "when": "11/1 9:00 - 소진되자마자",
+    "cond": "500엔 이상 구매 시 1개",
+    "limit": "배포 부수 제한 없음",
+    "mail": "NG (우편 아님)"
+   }
+  },
+  "3b341bc3c0": {
+   "key": "2696dde7c005",
+   "en": {
+    "name": "Station 1 Year Anniversary Special Ticket",
+    "when": "8/8 9:00 - as soon as it runs out",
+    "cond": "For purchases of 2,000 yen or more at retailers, food courts, and tourist associations",
+    "limit": "In principle, one receipt per person is limited to one sheet",
+    "extra": [
+     "* One sheet must be distributed by presenting the receipt",
+     "* It is possible to combine multiple receipts, but even if it exceeds 2000 yen, one sheet will be given to you",
+     "(For example, we can't give you 2 tickets with a receipt of 4000 yen or more/not every 2000 yen)"
+    ]
+   },
+   "zh-Hant": {
+    "name": "星站1週年紀念特別票券",
+    "when": "8/8 9:00 -一旦用完",
+    "cond": "在零售商、美食廣場和旅遊協會購買2,000日圓或以上",
+    "limit": "原則上，每人一張收據以一張為限",
+    "extra": [
+     "*必須出示收據分發一張",
+     "*可以合併多張收據，但即使超過2000日圓，也會給您一張",
+     "（例如，我們無法給您2張收據為4000日元或以上的門票/不是每2000日元）"
+    ]
+   },
+   "ko": {
+    "name": "스테이션 1주년 기념 특별 티켓",
+    "when": "8/8 9:00 - 소진되자마자",
+    "cond": "소매점, 푸드코트, 관광협회에서 2,000엔 이상 구매 시",
+    "limit": "원칙적으로 1인당 한 장의 영수증은 한 장으로 제한됩니다.",
+    "extra": [
+     "* 영수증을 제시하여 1장을 배부해야 합니다.",
+     "* 여러 개의 영수증을 합칠 수 있지만, 2000엔을 초과하더라도 한 장의 영수증을 드립니다.",
+     "(예를 들어, 4000엔 이상의 영수증/2000엔 마다 2매를 드릴 수 없습니다)"
+    ]
+   }
+  },
+  "2348a991c2": {
+   "key": "3427a6e95d65",
+   "en": {
+    "name": "30th Anniversary Ticket",
+    "when": "8/10 ~ End as soon as it runs out",
+    "cond": "1 ticket for those who shopped at 500 yen or more in Roadside Station",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "30周年門票",
+    "when": "8/10 ~用完即結束",
+    "cond": "在路邊車站以500日元或以上購物的人可獲得1張票",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "30주년 기념 티켓",
+    "when": "8/10 ~ 소진되자마자 종료",
+    "cond": "로드사이드 스테이션에서 500엔 이상 쇼핑하신 분들을 위한 티켓 1장",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "af6dc98ede": {
+   "key": "64767c448cac",
+   "en": {
+    "name": "30th Anniversary of the Discovery of the Tsukiyama Eleph",
+    "when": "8/12 9:00 - as soon as it runs out",
+    "cond": "1 Regular Ticket for 1 Purchase",
+    "limit": "-----",
+    "extra": [
+     "* Limited to 200 sheets"
+    ]
+   },
+   "zh-Hant": {
+    "name": "月山大象發現30周年",
+    "when": "8/12 9:00 -一旦用完",
+    "cond": "購買1張普通門票",
+    "limit": "-----",
+    "extra": [
+     "*限量200張"
+    ]
+   },
+   "ko": {
+    "name": "츠키야마 코끼리 발견 30주년",
+    "when": "8/12 9:00 - 소진되자마자",
+    "cond": "1회 구매 시 일반 티켓 1장",
+    "limit": "-----",
+    "extra": [
+     "* 200매로 제한"
+    ]
+   }
+  },
+  "b4938cce92": {
+   "key": "1d27b4f3016d",
+   "en": {
+    "name": "Station 9th Anniversary Special Ticket",
+    "when": "8/12 9:30 -",
+    "cond": "1 ticket for purchases over 1000 yen at Roadside Station 7-Eleven on the day",
+    "limit": "No limit on the number of copies distributed",
+    "extra": [
+     "* Receipt totaling is OK"
+    ]
+   },
+   "zh-Hant": {
+    "name": "星站9周年特惠券",
+    "when": "8/12 9:30 -",
+    "cond": "當天在路邊站7-11購買超過1000日圓的門票1張",
+    "limit": "發佈的份數沒有限制",
+    "extra": [
+     "*電子明細合計無問題"
+    ]
+   },
+   "ko": {
+    "name": "스테이션 9주년 기념 특별 티켓",
+    "when": "8/12 9:30 -",
+    "cond": "당일 로드사이드 스테이션 세븐일레븐에서 1000엔 이상 구매 시 1매",
+    "limit": "배포 부수 제한 없음",
+    "extra": [
+     "* 영수증 합계가 정상입니다."
+    ]
+   }
+  },
+  "19216fab15": {
+   "key": "7b9cd932a2cc",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "8/11 8:30 - as soon as it runs out",
+    "cond": "1 for purchases over 500 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "8/11 8:30 -一旦用完",
+    "cond": "購買金額超過500日圓者1張",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "8/11 8:30 - 소진되자마자",
+    "cond": "500엔 이상 구매 시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "b71d7b2c96": {
+   "key": "c6617fbc3dcf",
+   "en": {
+    "name": "Roadside Station 9th Anniversary Ticket",
+    "when": "8/11 9:00 - as soon as it runs out",
+    "cond": "1 for purchases of ¥1000 or more",
+    "limit": "-----",
+    "extra": [
+     "* Even if you pay 2000 yen per time, one ticket",
+     "(If you want two sheets, please divide the bill into two times)"
+    ]
+   },
+   "zh-Hant": {
+    "name": "路邊站9周年門票",
+    "when": "8/11 9:00 -一旦用完",
+    "cond": "1次購買滿1000日圓以上",
+    "limit": "-----",
+    "extra": [
+     "*即使您每次支付2000日元，一張票",
+     "（如果需要兩張紙，請將賬單分成兩份）"
+    ]
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 9주년 기념 티켓",
+    "when": "8/11 9:00 - 소진되자마자",
+    "cond": "¥ 1000 이상 구매 시 1개",
+    "limit": "-----",
+    "extra": [
+     "* 1회 2000엔을 지불하셔도 1매",
+     "(두 장을 원하시면 계산서를 두 번 나누어 주세요)"
+    ]
+   }
+  },
+  "dc25de3080": {
+   "key": "634625d36f7f",
+   "en": {
+    "name": "Roadside Station Opening 21st Anniversary Ticket",
+    "when": "8/10 8:30 ~ Ends as soon as it is gone ➡8/11 ~ Change",
+    "cond": "1 for purchases of 500 yen or more or 1 for 3 Regular Tickets",
+    "limit": "No limit on the number of copies distributed",
+    "extra": [
+     "* We are closed on August 10th due to regular holidays."
+    ]
+   },
+   "zh-Hant": {
+    "name": "路邊車站開放21週年紀念門票",
+    "when": "8/10 8:30 ~ ➡8/11結束後立即結束~變更",
+    "cond": "1張購買500日圓或以上或1張購買3張普通票",
+    "limit": "發佈的份數沒有限制",
+    "extra": [
+     "*由於節假日，我們在8月10日關閉。"
+    ]
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 오픈 21주년 기념 티켓",
+    "when": "8/10 8:30 ~ 없어지자마자 종료 ➡8/11 ~ 변경",
+    "cond": "500엔 이상 구매 시 1장 또는 일반 티켓 3장 구매 시 1장",
+    "limit": "배포 부수 제한 없음",
+    "extra": [
+     "* 8월10일 정기휴무로 휴무입니다."
+    ]
+   }
+  },
+  "35233e036d": {
+   "key": "b77fdab73221",
+   "en": {
+    "name": "Special commemorative ticket",
+    "when": "8/3 8:30 - as soon as it runs out",
+    "cond": "1 for purchases over 1000 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "特別紀念券",
+    "when": "8/3 8:30 -一旦用完",
+    "cond": "1次購買金額超過1000日圓",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "특별 기념 티켓",
+    "when": "8/3 8:30 - 소진되자마자",
+    "cond": "1000엔 이상 구매 시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "87f6b2fc3b": {
+   "key": "5dbb94389ce8",
+   "en": {
+    "name": "Special 30th Anniversary Ticket",
+    "when": "8/5 9:00 - as soon as it runs out",
+    "cond": "1 for sales of 1000 yen or more or 1 for 5 regular tickets",
+    "limit": "Up to 3 sheets per person",
+    "phone": "Ok (Inquiry for current No. NG)",
+    "extra": [
+     "The distribution of \"Roadside Station Onan no Sato\" has ended as of August 19, 2026"
+    ]
+   },
+   "zh-Hant": {
+    "name": "特別30週年紀念門票",
+    "when": "8/5 9:00 -一旦用完",
+    "cond": "1000日圓或以上的銷售額為1張，或5張普通票為1張",
+    "limit": "每人最多3張",
+    "phone": "確定（詢問目前編號NG ）",
+    "extra": [
+     "「路邊站Onan no Sato」的配送已於2026年8月19日結束"
+    ]
+   },
+   "ko": {
+    "name": "30주년 기념 특별 티켓",
+    "when": "8/5 9:00 - 소진되자마자",
+    "cond": "1000엔 이상 판매시 1장 또는 일반 티켓 5장 판매시 1장",
+    "limit": "1인당 최대 3장",
+    "phone": "확인 (현재 번호 NG에 대한 문의)",
+    "extra": [
+     "'로드사이드 스테이션 오난노사토' 의 분양은 2026년 8월 19일부로 종료되었습니다."
+    ]
+   }
+  },
+  "a610e0519e": {
+   "key": "d495187a7d47",
+   "en": {
+    "name": "1st Anniversary Special Ticket",
+    "when": "8/4 9:00 - as soon as it runs out",
+    "cond": "Distribute 1 card for every purchase of 2,000 yen or more at Roadside Station",
+    "limit": "No limit on the number of copies distributed",
+    "extra": [
+     "* Distributed to those who wish"
+    ]
+   },
+   "zh-Hant": {
+    "name": "一周年特惠券",
+    "when": "8/4 9:00 -一旦用完",
+    "cond": "在路邊車站每購買2,000日圓或以上，即可發放1張卡",
+    "limit": "發佈的份數沒有限制",
+    "extra": [
+     "*分發給有需要的人"
+    ]
+   },
+   "ko": {
+    "name": "1주년 기념 특별 티켓",
+    "when": "8/4 9:00 - 소진되자마자",
+    "cond": "로드사이드 스테이션에서 2,000엔 이상 구매 시 카드 1장 배포",
+    "limit": "배포 부수 제한 없음",
+    "extra": [
+     "* 원하시는 분들에게 배포"
+    ]
+   }
+  },
+  "e849690016": {
+   "key": "65c62a4ffc2c",
+   "en": {
+    "name": "19th Anniversary Ticket",
+    "when": "8/3 9:00 - as soon as it runs out",
+    "cond": "1 for purchases over 500 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "19周年門票",
+    "when": "8/3 9:00 -一旦用完",
+    "cond": "購買金額超過500日圓者1張",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "19주년 기념 티켓",
+    "when": "8/3 9:00 - 소진되자마자",
+    "cond": "500엔 이상 구매 시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "2681bcfff6": {
+   "key": "08a3ad4eaf73",
+   "en": {
+    "name": "Roadside Station Certification 21st Anniversary",
+    "when": "8/2 9:15 ~ as soon as it runs out",
+    "cond": "One sheet for every 500 yen purchased (applicant)",
+    "limit": "Up to 5 sheets per person (only for you)"
+   },
+   "zh-Hant": {
+    "name": "路邊車站認證21周年",
+    "when": "8/2 9:15 ~用完即可",
+    "cond": "每購買500日圓一張（申請人）",
+    "limit": "每人最多5張（僅限您本人）"
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 인증 21주년",
+    "when": "8/2 9:15 ~ 소진되자마자",
+    "cond": "500엔당 1장 구매 (신청자)",
+    "limit": "1인당 최대 5장 (본인 전용)"
+   }
+  },
+  "5a9da3dd39": {
+   "key": "1ad4829ba7bb",
+   "en": {
+    "name": "35th Anniversary Ticket",
+    "when": "8/10",
+    "cond": "1 Regular Ticket per purchase",
+    "limit": "Up to 5 sheets per person",
+    "extra": [
+     "* Regular tickets are also limited to→ 10 tickets per person.",
+     "* There is also a maximum distribution limit of→ 10 tickets per person.",
+     "Regular tickets can be purchased up to a maximum of 10 tickets, and special commemorative tickets can only be distributed up to a maximum of 5 tickets."
+    ]
+   },
+   "zh-Hant": {
+    "name": "35周年門票",
+    "when": "8/1 ~",
+    "cond": "每次購買1張普通門票",
+    "limit": "每人最多5張",
+    "extra": [
+     "*普通票也限制爲每→人10票。",
+     "*每人最多可分發→10張門票。",
+     "普通門票最多可購買10張門票，特別紀念門票最多可發放5張門票。"
+    ]
+   },
+   "ko": {
+    "name": "35주년 기념 티켓",
+    "when": "8/1 ~",
+    "cond": "구매당 일반 티켓 1장",
+    "limit": "1인당 최대 5장",
+    "extra": [
+     "* 일반 티켓도 1인당→ 10매로 제한됩니다.",
+     "* 1인당 최대 10매 배포→ 제한도 있습니다.",
+     "일반 티켓은 최대 10장까지 구매할 수 있으며, 특별 기념 티켓은 최대 5장까지만 배포할 수 있습니다."
+    ]
+   }
+  },
+  "868e8caa3e": {
+   "key": "397dde82da17",
+   "en": {
+    "name": "Shimuki Pi Original Goods in full stock",
+    "when": "8/1 9:00 - as soon as it runs out",
+    "cond": "Sold for about 500 yen 1 sheet for those who purchase",
+    "limit": "Up to 2 tickets per person"
+   },
+   "zh-Hant": {
+    "name": "Shimuki Pi原廠商品全庫存",
+    "when": "8/1 9:00 -一旦用完",
+    "cond": "購買者售價約500日元1張",
+    "limit": "每人最多2張門票"
+   },
+   "ko": {
+    "name": "시무키 피 오리지널 굿즈 전량 입고",
+    "when": "8/1 9:00 - 소진되자마자",
+    "cond": "구매하시는 분들을 위해 약 500엔 1장에 판매",
+    "limit": "1인당 최대 2매"
    }
   }
  }
