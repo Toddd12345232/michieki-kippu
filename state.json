@@ -22370,7 +22370,7 @@
     "pref": "山形県",
     "station": "新庄エコロジーガーデン原蚕の杜",
     "name": "来場者10万人達成記念",
-    "when": "11/3 12:00～なくなり次第終了",
+    "when": "11/3 12:00～なくなり次第終了 ➡ 11:00からのセレモニー終了後へ変更",
     "cond": "来場者10万人記念限定チーズケーキ800円(税込)購入の方",
     "limit": "配布枚数制限なし",
     "mail": "NG（送りつけはそのまま返却致します）",
@@ -41031,9 +41031,9 @@
  },
  "sources": {
   "michieki": "2026-10-27T21:26:54+00:00",
-  "apt_status": "2026-10-28T21:30:16+00:00",
-  "apt_specials": "2026-10-28T21:30:16+00:00",
-  "apt_notices": "2026-10-28T21:30:16+00:00",
+  "apt_status": "2026-10-29T21:31:23+00:00",
+  "apt_specials": "2026-10-29T21:31:23+00:00",
+  "apt_notices": "2026-10-29T21:31:23+00:00",
   "chubu": "2026-10-27T21:26:54+00:00",
   "details": "2026-10-26T21:25:34+00:00"
  },
@@ -41042,8 +41042,8 @@
   "apt-31-ほうじょう"
  ],
  "notes": [
-  "translation: daily allowance reached (4464 characters); the rest continues tomorrow",
-  "translation: 4464 characters with MyMemory"
+  "translation: daily allowance reached (4446 characters); the rest continues tomorrow",
+  "translation: 4446 characters with MyMemory"
  ],
  "translations": {
   "7533c04c57": {
@@ -43444,24 +43444,24 @@
    }
   },
   "f65e5b8da3": {
-   "key": "240e27437594",
+   "key": "704db330ec26",
    "en": {
     "name": "Celebrating 100,000 visitors",
-    "when": "11/3 12:00 - as soon as it runs out",
+    "when": "11/3 12:00 - Ends as soon as it runs out Change to after the ceremony from ➡ 11:00",
     "cond": "Exclusive cheesecake for 100,000 visitors 800 yen (tax included)",
     "limit": "No limit on the number of copies distributed",
     "mail": "NG (I will return it as it is)"
    },
    "zh-Hant": {
     "name": "迎接10萬名遊客",
-    "when": "11/3 12:00 -一旦用完",
+    "when": "11/3 12:00 -儀式結束後立即結束從➡11:00改為儀式後",
     "cond": "10萬人份獨家芝士蛋糕800日圓（含稅）",
     "limit": "發佈的份數沒有限制",
     "mail": "NG （我會按原樣退回）"
    },
    "ko": {
     "name": "방문객 10만 명 돌파 기념",
-    "when": "11/3 12:00 - 소진되자마자",
+    "when": "11/3 12:00 - 소진되자마자 종료 ➡ 11:00 부터 예식 후 로 변경",
     "cond": "방문객 10만 명을 위한 전용 치즈케이크 800엔 (세금 포함)",
     "limit": "배포 부수 제한 없음",
     "mail": "NG (그대로 돌려드립니다)"
@@ -44404,6 +44404,471 @@
      "“Roadside Station",
      "\"North Okhotsk Matonbetsu\" 는 2026년 7월 21일자로 중단되었습니다."
     ]
+   }
+  },
+  "0293f84d77": {
+   "key": "f322c14809bc",
+   "en": {
+    "name": "Commemorating the 90th anniversary of the opening of the entire Jnr Kohama North Line",
+    "when": "7/10 9:00 - as soon as it runs out",
+    "cond": "1 for each purchase of 500 yen or more in the Exchange Shop",
+    "limit": "Up to 3 sheets per person"
+   },
+   "zh-Hant": {
+    "name": "紀念國鐵小濱北線開通90周年",
+    "when": "7/10 9:00 -一旦用完",
+    "cond": "在交易所商店每次購買500日元或以上可獲得1份",
+    "limit": "每人最多3張"
+   },
+   "ko": {
+    "name": "Jnr Kohama North Line 전체 개통 90주년 기념",
+    "when": "7/10 9:00 - 소진되자마자",
+    "cond": "교환 상점에서 500엔 이상 구매 시 1개",
+    "limit": "1인당 최대 3장"
+   }
+  },
+  "5a6fe50ee7": {
+   "key": "ccab6d5456b1",
+   "en": {
+    "name": "7th Anniversary Ticket",
+    "when": "Distributed only from 7/11 to 7/12",
+    "cond": "Distribute one production gift or ticket to those who purchase more than 1,000 yen (tax included) on the same day at the direct sales office",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "七周年門票",
+    "when": "僅從7/11到7/12分布",
+    "cond": "向當天在直銷辦公室購買超過1,000日圓（含稅）的人發放一份製作禮品或門票",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "7주년 기념 티켓",
+    "when": "7/11 ~ 7/12까지만 배포",
+    "cond": "직영점에서 당일 1,000엔 (세금 포함) 이상 구매하신 분께 제작 선물 또는 티켓 1매를 배부합니다.",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "fc3c4dc949": {
+   "key": "dc9a6b51148f",
+   "en": {
+    "name": "Celebrating our 7th anniversary",
+    "when": "7/11 9:00 - as soon as it runs out",
+    "cond": "One gift for those who purchase more than 500 yen (tax included) at a direct sales outlet or miscellaneous goods corner",
+    "limit": "Up to 3 sheets per person"
+   },
+   "zh-Hant": {
+    "name": "慶祝我們成立7週年",
+    "when": "7/11 9:00 -一旦用完",
+    "cond": "在直銷店或雜貨店購買超過500日圓（含稅）的人士可獲得一份禮物",
+    "limit": "每人最多3張"
+   },
+   "ko": {
+    "name": "창립 7주년 기념",
+    "when": "7/11 9:00 - 소진되자마자",
+    "cond": "직매장 또는 잡화 코너에서 500엔 (세금 포함) 이상 구매하신 분께 드리는 선물 1매",
+    "limit": "1인당 최대 3장"
+   }
+  },
+  "b259bb40c1": {
+   "key": "05c5573d0d26",
+   "en": {
+    "name": "9th Anniversary!! With gratitude♡",
+    "when": "7/11 9:00 - as soon as it runs out",
+    "cond": "Purchasers of the following products",
+    "limit": "Up to 1 sheet per person",
+    "extra": [
+     "* If you purchased a Roadside Station Ticket, Roadside Station Card, or Roadside Station Commemorative Designated Ticket",
+     "(In principle, one sheet is distributed even if one person purchases multiple copies)"
+    ]
+   },
+   "zh-Hant": {
+    "name": "九周年！ ！心懷感激♡",
+    "when": "7/11 9:00 -一旦用完",
+    "cond": "以下產品的購買者",
+    "limit": "每人最多1張",
+    "extra": [
+     "*如果您購買了路邊車站門票、路邊車站卡或路邊車站紀念指定門票",
+     "（原則上，即使一個人購買多份，也會發放一張）"
+    ]
+   },
+   "ko": {
+    "name": "9주년!! 감사한 마음으로♡",
+    "when": "7/11 9:00 - 소진되자마자",
+    "cond": "다음 상품의 구매자",
+    "limit": "1인당 최대 1매",
+    "extra": [
+     "* 로드사이드 스테이션 티켓, 로드사이드 스테이션 카드 또는 로드사이드 스테이션 기념 지정 티켓을 구매한 경우",
+     "(한 사람이 여러 장을 구매하더라도 한 장은 배포하는 것을 원칙으로 함)"
+    ]
+   }
+  },
+  "3a866178eb": {
+   "key": "d7e1574edea4",
+   "en": {
+    "name": "23rd Anniversary Ticket",
+    "when": "7/11 9:00 - as soon as it runs out",
+    "cond": "One gift per person (free distribution)",
+    "limit": "1 per person",
+    "phone": "Ok (only stock check is OK/cannot be placed)"
+   },
+   "zh-Hant": {
+    "name": "23周年門票",
+    "when": "7/11 9:00 -一旦用完",
+    "cond": "每人一份禮物（免費發放）",
+    "limit": "每人1次",
+    "phone": "確定（只有庫存檢查可以/無法放置）"
+   },
+   "ko": {
+    "name": "23주년 기념 티켓",
+    "when": "7/11 9:00 - 소진되자마자",
+    "cond": "1인당 선물 1개 (무료 배포)",
+    "limit": "1인당 1개",
+    "phone": "확인 (재고 확인만 가능/배치할 수 없음)"
+   }
+  },
+  "c6f795fc18": {
+   "key": "b14894cee6b3",
+   "en": {
+    "name": "20th Anniversary Ticket",
+    "when": "7/8 9:00 - as soon as it runs out",
+    "cond": "1 sheet for each purchase of 500 yen (tax included) or more",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "20周年門票",
+    "when": "7/8 9:00 -一旦用完",
+    "cond": "每次購買500日元（含稅）或以上1張",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "20주년 기념 티켓",
+    "when": "7/8 9:00 - 소진되자마자",
+    "cond": "500엔 (세금 포함) 이상 구매 시 1장",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "88c19e5931": {
+   "key": "86763d37992d",
+   "en": {
+    "name": "Special commemorative ticket for the establishment of \"Fukaya Citizen's Day\"",
+    "when": "7/3 8:00 - as soon as it runs out",
+    "cond": "1 for purchases over 1000 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "設立「深谷市民日」特別紀念券",
+    "when": "7/3 8:00 -一旦用完",
+    "cond": "1次購買金額超過1000日圓",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "'후카야 시민의 날' 제정 기념 특별 입장권",
+    "when": "7/3 8:00 - 소진되자마자",
+    "cond": "1000엔 이상 구매 시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "b81f9b2350": {
+   "key": "600d13296a83",
+   "en": {
+    "name": "1st Anniversary Special Ticket",
+    "when": "7/7 9:00 - as soon as it runs out",
+    "cond": "1 for those who purchased more than 1000 yen at a direct sales outlet",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "一周年特惠券",
+    "when": "7月7日9:00 -一旦用完",
+    "cond": "1個適用於在直銷店購買超過1000日元的人",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "1주년 기념 특별 티켓",
+    "when": "7/7 9:00 - 소진되자마자",
+    "cond": "1 직매장에서 1000엔 이상 구매하신 분",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "2816a88efe": {
+   "key": "a8f3024d201b",
+   "en": {
+    "name": "Station Opening Ticket R8.7.6",
+    "when": "7/6 Around 15:00 ~ Ends as soon as it is gone",
+    "cond": "Sales (use) at the following facilities Distribute one sheet for 2,000 yen or more",
+    "limit": "Up to 1 sheet per person",
+    "extra": [
+     "[Distribution place] Redemption at Kirari Terrace * Receipt posting can be combined",
+     "[Eligible Facilities] Kiraru Terrace, Kirarunoyu Shop, Kiraru Camping, Sports Park",
+     "* The target facilities are only the above two stores",
+     "* Distribution time will be after the station opening type tape cutting"
+    ]
+   },
+   "zh-Hant": {
+    "name": "星站開放入場券R8.7.6",
+    "when": "7/6 15:00左右~消失即結束",
+    "cond": "在以下機構的銷售（使用）以2,000日圓或以上的價格分發一張",
+    "limit": "每人最多1張",
+    "extra": [
+     "【配送地點】Kirari Terrace兌換*收據張貼可合併",
+     "【適用設施】Kiraru Terrace、Kirarunoyu Shop、Kiraru Camping、Sports Park",
+     "*目標設施僅為上述兩家門店",
+     "*分配時間將在工位開口式膠帶切割後"
+    ]
+   },
+   "ko": {
+    "name": "스테이션 개통 티켓 R8.7.6",
+    "when": "7/6 15:00 경 ~ 소멸하자마자 종료",
+    "cond": "다음 시설에서 판매 (사용) 2,000엔 이상에 한 장 배포",
+    "limit": "1인당 최대 1매",
+    "extra": [
+     "[분양처] 키라리 테라스에서 상환 * 영수증 게시 합산 가능",
+     "[대상시설] 키라루테라스, 키라루노유점, 키라루캠핑, 스포츠파크",
+     "* 대상 시설은 상기 2개 점포에 한함",
+     "* 분배 시간은 스테이션 개방형 테이프 절단 후입니다."
+    ]
+   }
+  },
+  "5e39a76b32": {
+   "key": "5cdfeeb8ec2c",
+   "en": {
+    "name": "19th Anniversary",
+    "when": "7/5 9:00 - as soon as it runs out",
+    "cond": "1 sheet for each purchase of 500 yen or more",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "19周年",
+    "when": "7/5 9:00 -一旦用完",
+    "cond": "500日圓以上每次購買1張",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "19주년",
+    "when": "7/5 9:00 - 소진되자마자",
+    "cond": "500엔 이상 구매 시 1장 증정",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "4aee7c6b10": {
+   "key": "302c7a0e47c4",
+   "en": {
+    "name": "Roadside Station Odori Shokudo Flower * Flower Open Commemorative Ticket",
+    "when": "7/1 10:30 - as soon as it runs out",
+    "cond": "1 for purchases over 1000 yen",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "路邊站大通食堂花*開花紀念券",
+    "when": "7/1 10:30 -一旦用完",
+    "cond": "1次購買金額超過1000日圓",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 오도리 쇼쿠도 플라워 * 플라워 오픈 기념 티켓",
+    "when": "7/1 10:30 - 소진되자마자",
+    "cond": "1000엔 이상 구매 시 1개",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "7bf24acbde": {
+   "key": "fba8ec1b414b",
+   "en": {
+    "name": "10th Anniversary Ticket",
+    "when": "7/1 9:00 - as soon as it runs out",
+    "cond": "Those who can provide \"information that will be a good place for other road stations\" at the window",
+    "limit": "Up to 1 sheet per person",
+    "phone": "Ok (Inventory confirmation only/placement not possible)"
+   },
+   "zh-Hant": {
+    "name": "十周年門票",
+    "when": "7/1 9:00 -一旦用完",
+    "cond": "能夠在窗口提供“對其他道路站來說是個好地方的信息”的人",
+    "limit": "每人最多1張",
+    "phone": "確定（僅限存貨確認/無法放置）"
+   },
+   "ko": {
+    "name": "10주년 기념 티켓",
+    "when": "7/1 9:00 - 소진되자마자",
+    "cond": "창구에서 \"다른 도로역에 좋은 장소가 될 정보\" 를 제공할 수 있는 사람",
+    "limit": "1인당 최대 1매",
+    "phone": "확인 (재고 확인만 가능/배치 불가)"
+   }
+  },
+  "5cbd55e890": {
+   "key": "6dd2b7e1089b",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "7/1 8:30 ~ as soon as it runs out",
+    "cond": "Those who purchase more than 1000 yen including tax at \"Asuka Totokan\"",
+    "limit": "No limit on the number of copies distributed",
+    "extra": [
+     "* Cannot be combined"
+    ]
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "7/1 8:30 ~用完即可",
+    "cond": "在「Asuka Totokan」購買金額超過1000日圓（含稅）的旅客",
+    "limit": "發佈的份數沒有限制",
+    "extra": [
+     "*不可合併使用"
+    ]
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "7/1 8:30 ~ 소진되자마자",
+    "cond": "\"아스카 토토칸\" 에서 세금 포함 1000엔 이상 구매하신 분",
+    "limit": "배포 부수 제한 없음",
+    "extra": [
+     "* 결합 불가"
+    ]
+   }
+  },
+  "c10ed77a4d": {
+   "key": "c70f8bfd4879",
+   "en": {
+    "name": "30th Anniversary Ticket",
+    "when": "7/1 8:30 ~ as soon as it runs out",
+    "cond": "Those who want to buy more than 1000 yen at the souvenir shop",
+    "limit": "Up to 1 sheet per person (1 bill)"
+   },
+   "zh-Hant": {
+    "name": "30周年門票",
+    "when": "7/1 8:30 ~用完即可",
+    "cond": "想在紀念品商店購買超過1000日元的人",
+    "limit": "每人最多1張（ 1張票據）"
+   },
+   "ko": {
+    "name": "30주년 기념 티켓",
+    "when": "7/1 8:30 ~ 소진되자마자",
+    "cond": "기념품점에서 1000엔 이상 구매를 원하시는 분",
+    "limit": "1인당 최대 1매 (청구서 1매)"
+   }
+  },
+  "56e28bb73f": {
+   "key": "c1e872df86b0",
+   "en": {
+    "name": "Rotary 50th Anniversary & Red Potato Malasada Awards",
+    "when": "July 1, 11 o'clock ~ as soon as it runs out",
+    "cond": "1 for purchases of ¥1,000 or more at participating stores",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "扶輪50週年暨馬拉薩達紅馬鈴薯獎",
+    "when": "7月1日11時～用完後",
+    "cond": "1適用於在參與商店消費滿1,000日圓或以上的商品",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "로타리 50주년 기념 및 빨간 감자 말라사다 어워드",
+    "when": "7월 1일 11시 ~ 소진되자마자",
+    "cond": "참여 매장에서 ¥ 1,000 이상 구매 시 1개",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "0149121827": {
+   "key": "81adb70fcee9",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "6/27 9:00 - as soon as it runs out",
+    "cond": "1 for sales of 1000 yen or more",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "6/27 9:00 -一旦用完",
+    "cond": "1售出1000日圓以上",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "6/27 9:00 - 소진되자마자",
+    "cond": "1000엔 이상 판매시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "2b3bde6fee": {
+   "key": "979d1a8761e8",
+   "en": {
+    "name": "Roadside station registration card",
+    "when": "6/29 9:00 - as soon as it runs out",
+    "cond": "① Either ②",
+    "limit": "No limit on the number of copies distributed",
+    "mail": "OK Please be sure to specify whether the date of purchase is required or unnecessary",
+    "extra": [
+     "① Buy 2 commemorative tickets and get 1",
+     "② Purchase 400 yen or more including 1 commemorative ticket and distribute 1 ticket"
+    ]
+   },
+   "zh-Hant": {
+    "name": "路邊車站登記證",
+    "when": "6/29 9:00 -一旦用完",
+    "cond": "①任一②",
+    "limit": "發佈的份數沒有限制",
+    "mail": "確定請務必註明購買日期是必需的還是不必要的",
+    "extra": [
+     "①購買2張紀念券，即可獲得1張",
+     "②購買400日圓或以上，包括1張紀念券，並發放1張門票"
+    ]
+   },
+   "ko": {
+    "name": "긴급 출동 스테이션 등록증",
+    "when": "6/29 9:00 - 소진되자마자",
+    "cond": "① 둘 중 하나 ②",
+    "limit": "배포 부수 제한 없음",
+    "mail": "확인 구매 날짜가 필수인지 불필요한지 반드시 지정하십시오.",
+    "extra": [
+     "① 기념 티켓 2장을 구매하고 1장을 받으세요.",
+     "② 기념티켓 1매 포함 400엔 이상 구매 및 1매 배부"
+    ]
+   }
+  },
+  "b319e93b1b": {
+   "key": "d48d7d41713b",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "6/23 10:00 ~ as soon as it runs out",
+    "limit": "Up to 1 sheet per person",
+    "extra": [
+     "Changed to more than →1,500 yen per sheet for those who purchase more than 1,000 yen of shop items"
+    ]
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "6/23 10:00 ~用完即可",
+    "limit": "每人最多1張",
+    "extra": [
+     "對於購買超過1,000日圓的商店商品的人，改為每張→1,500日圓以上"
+    ]
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "6/23 10:00 ~ 소진되자마자",
+    "limit": "1인당 최대 1매",
+    "extra": [
+     "1,000엔 이상의 상점 상품을 구매하는 경우 시트당 →1,500엔 이상으로 변경됨"
+    ]
+   }
+  },
+  "62aad5a6e8": {
+   "key": "e8fdb37b6307",
+   "en": {
+    "name": "Station 6th Anniversary Ticket",
+    "when": "6/26 9:00 - as soon as it runs out",
+    "cond": "For purchases of 2,000 yen or more",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "太空站六周年門票",
+    "when": "6/26 9:00 -一旦用完",
+    "cond": "購買金額達2,000日圓以上",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "스테이션 6주년 기념 티켓",
+    "when": "6/26 9:00 - 소진되자마자",
+    "cond": "2,000엔 이상 구매시",
+    "limit": "1인당 최대 1매"
    }
   }
  }
