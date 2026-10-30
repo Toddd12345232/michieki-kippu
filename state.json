@@ -14983,8 +14983,8 @@
     8
    ],
    "name": "さとみ",
-   "raw": "販売中止(2009年8月)",
-   "status": "stopped"
+   "raw": "'26.11/7～販売開始",
+   "status": "selling"
   },
   {
    "prefs": [
@@ -22349,6 +22349,88 @@
  ],
  "apt_specials": {
   "posts": [
+   {
+    "posted": "2026-10-30",
+    "pref": "福島県",
+    "station": "猪苗代",
+    "name": "開業10周年記念きっぷ",
+    "when": "11/7 9:00～",
+    "cond": "物販2000円以上購入の希望者の方に配布",
+    "limit": "お1人様1枚まで",
+    "mail": "NG",
+    "phone": "NG",
+    "extra": [],
+    "id": "95d334d6d4",
+    "start": "2026-11-07",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-30",
+    "pref": "山形県",
+    "station": "もがみ",
+    "name": "道の駅もがみ開業3周年特別記念",
+    "when": "11/7 9:00～なくなり次第終了",
+    "cond": "道の駅もがみカフェコーナーにてお買上500円毎に1枚",
+    "limit": "配布枚数制限なし",
+    "mail": "NG（送りつけはそのまま返却致します）",
+    "phone": "NG",
+    "extra": [],
+    "id": "9875a62738",
+    "start": "2026-11-07",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-30",
+    "pref": "山梨県",
+    "station": "つる",
+    "name": "十周年記念きっぷ",
+    "when": "11/7 9:00～なくなり次第終了",
+    "cond": "直売･レストラン･炭香にて1000円以上につき1枚配布",
+    "limit": "お1人様5枚迄",
+    "mail": "NG",
+    "phone": "OK",
+    "extra": [
+     "※1000以上のレシート必須"
+    ],
+    "id": "796d85c478",
+    "start": "2026-11-07",
+    "end": null,
+    "ended": null
+   },
+   {
+    "posted": "2026-10-30",
+    "pref": "千葉県",
+    "station": "みのりの郷東金",
+    "name": "道の駅認定11周年記念きっぷ",
+    "when": "11/7～8のみ配布 各日先着150枚",
+    "cond": "当日1000円以上お買上のレシート1枚につき1枚",
+    "limit": "お１人様1枚迄",
+    "mail": "NG",
+    "phone": "NG",
+    "extra": [],
+    "id": "f529c90384",
+    "start": "2026-11-07",
+    "end": "2026-11-08",
+    "ended": null
+   },
+   {
+    "posted": "2026-10-30",
+    "pref": "茨城県",
+    "station": "さとみ",
+    "name": "里山ガストロノミー開始記念切符",
+    "when": "11/7 11:00～なくなり次第終了",
+    "cond": "食事SETご購入のお客様限定で配布",
+    "limit": "-----",
+    "mail": "NG（送りつけはそのまま返却致します）",
+    "phone": "NG",
+    "extra": [],
+    "id": "37d719f7da",
+    "start": "2026-11-07",
+    "end": null,
+    "ended": null
+   },
    {
     "posted": "2026-10-27",
     "pref": "岩手県",
@@ -32763,6 +32845,10 @@
     "2026-05-11"
    ],
    [
+    "上ノ国もんじゅ",
+    "2026-10-30"
+   ],
+   [
     "伊勢志摩",
     "2026-02-03"
    ],
@@ -32837,6 +32923,10 @@
    [
     "尾瀬かたしな",
     "2026-07-02"
+   ],
+   [
+    "尾瀬かたしな",
+    "2026-10-30"
    ],
    [
     "山陽道やかげ宿",
@@ -41031,9 +41121,9 @@
  },
  "sources": {
   "michieki": "2026-10-27T21:26:54+00:00",
-  "apt_status": "2026-10-29T21:31:23+00:00",
-  "apt_specials": "2026-10-29T21:31:23+00:00",
-  "apt_notices": "2026-10-29T21:31:23+00:00",
+  "apt_status": "2026-10-30T21:28:29+00:00",
+  "apt_specials": "2026-10-30T21:28:29+00:00",
+  "apt_notices": "2026-10-30T21:28:29+00:00",
   "chubu": "2026-10-27T21:26:54+00:00",
   "details": "2026-10-26T21:25:34+00:00"
  },
@@ -41042,8 +41132,8 @@
   "apt-31-ほうじょう"
  ],
  "notes": [
-  "translation: daily allowance reached (4446 characters); the rest continues tomorrow",
-  "translation: 4446 characters with MyMemory"
+  "translation: daily allowance reached (4326 characters); the rest continues tomorrow",
+  "translation: 4326 characters with MyMemory"
  ],
  "translations": {
   "7533c04c57": {
@@ -44869,6 +44959,531 @@
     "when": "6/26 9:00 - 소진되자마자",
     "cond": "2,000엔 이상 구매시",
     "limit": "1인당 최대 1매"
+   }
+  },
+  "95d334d6d4": {
+   "key": "da151ccdb656",
+   "en": {
+    "name": "10th Anniversary Ticket",
+    "when": "11/7 9:00 AM -",
+    "cond": "Distributed to those who wish to purchase goods for 2,000 yen or more",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "十周年門票",
+    "when": "11/7上午9:00 -",
+    "cond": "分發給希望購買2,000日圓以上商品的人",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "10주년 기념 티켓",
+    "when": "11/7 오전 9:00 -",
+    "cond": "2,000엔 이상 물품 구매 희망자에게 배포",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "9875a62738": {
+   "key": "4d59b855a13f",
+   "en": {
+    "name": "Special commemoration of the 3rd anniversary of the opening of Roadside Station Mogami",
+    "when": "11/7 9:00 - as soon as it runs out",
+    "cond": "One for every 500 yen purchased at the Mogami Cafe corner of Roadside Station",
+    "limit": "No limit on the number of copies distributed",
+    "mail": "NG (I will return it as it is)"
+   },
+   "zh-Hant": {
+    "name": "路邊車站Mogami開幕3週年特別紀念活動",
+    "when": "11/7 9:00 -一旦用完",
+    "cond": "在路邊車站的Mogami Cafe角落購買，每500日圓購買一次",
+    "limit": "發佈的份數沒有限制",
+    "mail": "NG （我會按原樣退回）"
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 모가미 개통 3주년 특별기념",
+    "when": "11/7 9:00 - 소진되자마자",
+    "cond": "로드사이드 스테이션의 모가미 카페 코너에서 500엔당 1개",
+    "limit": "배포 부수 제한 없음",
+    "mail": "NG (그대로 돌려드립니다)"
+   }
+  },
+  "796d85c478": {
+   "key": "932ca8ac176a",
+   "en": {
+    "name": "10th Anniversary Ticket",
+    "when": "11/7 9:00 - as soon as it runs out",
+    "cond": "Distribute 1 sheet per 1000 yen or more at direct sales, restaurants, and charcoal fragrances",
+    "limit": "Up to 5 sheets per person",
+    "extra": [
+     "* A receipt of 1000 or more is required"
+    ]
+   },
+   "zh-Hant": {
+    "name": "十周年門票",
+    "when": "11/7 9:00 -一旦用完",
+    "cond": "在直銷、餐廳和木炭香水中，每1000日圓或以上發放1張",
+    "limit": "每人最多5張",
+    "extra": [
+     "*需要1000張或以上的收據"
+    ]
+   },
+   "ko": {
+    "name": "10주년 기념 티켓",
+    "when": "11/7 9:00 - 소진되자마자",
+    "cond": "직판장, 레스토랑, 숯 향수 등에서 1000엔 이상 당 1장을 나눠줍니다.",
+    "limit": "1인당 최대 5장",
+    "extra": [
+     "* 1000명 이상의 영수증이 필요합니다."
+    ]
+   }
+  },
+  "f529c90384": {
+   "key": "f355f8a73257",
+   "en": {
+    "name": "Roadside Station Certification 11th Anniversary Ticket",
+    "when": "11/7 - 8 only Distributed on first-come-first-served basis 150 pieces per day",
+    "cond": "1 for each receipt purchased on the day of purchase of more than 1000 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "路邊車站認證11周年門票",
+    "when": "11/7 - 8僅以先到先得的方式發放每天150件",
+    "cond": "超過1000日圓的購買日，每購買一張收據1張",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 인증 11주년 기념 티켓",
+    "when": "11/7 - 8 한정 선착순으로 배부 하루 150개",
+    "cond": "1000엔 이상 구매 당일 구매한 영수증당 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "37d719f7da": {
+   "key": "1ede4a1802fc",
+   "en": {
+    "name": "Satoyama Gastronomy Commemorative Ticket",
+    "when": "11/7 11:00 - as soon as it runs out",
+    "cond": "Distributed exclusively to customers who purchase a meal set",
+    "limit": "-----",
+    "mail": "NG (I will return it as it is)"
+   },
+   "zh-Hant": {
+    "name": "裏山美食紀念門票",
+    "when": "11/7 11:00 -一旦用完",
+    "cond": "專門分發給購買套餐的顧客",
+    "limit": "-----",
+    "mail": "NG （我會按原樣退回）"
+   },
+   "ko": {
+    "name": "사토야마 미식 여행 기념 티켓",
+    "when": "11/7 11:00 - 소진되자마자",
+    "cond": "식사 세트를 구매하는 고객에게만 배포",
+    "limit": "-----",
+    "mail": "NG (그대로 돌려드립니다)"
+   }
+  },
+  "204388bb4a": {
+   "key": "6b68f4f26156",
+   "en": {
+    "name": "7th Anniversary Ticket",
+    "when": "6/27 10:00 ~ as soon as it runs out",
+    "cond": "1 ticket for every 1000 yen purchased at this station",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "七周年門票",
+    "when": "6/27 10:00 ~用完即可",
+    "cond": "在這個車站購買每1000日圓1張車票",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "7주년 기념 티켓",
+    "when": "6/27 10:00 ~ 소진되자마자",
+    "cond": "이 역에서 구매한 1000엔당 티켓 1장",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "98dfd2d539": {
+   "key": "cf55244d191e",
+   "en": {
+    "name": "22nd Anniversary Special Ticket",
+    "when": "6/26 9:00 - as soon as it runs out",
+    "cond": "1,000 yen 1 sheet for each purchase",
+    "limit": "No limit on the number of copies distributed",
+    "phone": "Ok (not removable)"
+   },
+   "zh-Hant": {
+    "name": "22週年紀念特別券",
+    "when": "6/26 9:00 -一旦用完",
+    "cond": "每次購買1,000日圓1張",
+    "limit": "發佈的份數沒有限制",
+    "phone": "確定（不可拆卸）"
+   },
+   "ko": {
+    "name": "22주년 기념 특별 티켓",
+    "when": "6/26 9:00 - 소진되자마자",
+    "cond": "1,000엔 구매 시 1장",
+    "limit": "배포 부수 제한 없음",
+    "phone": "확인 (제거 불가)"
+   }
+  },
+  "d4586c8be3": {
+   "key": "61ccc9342763",
+   "en": {
+    "name": "Special commemorative ticket",
+    "when": "6/21 9:00 - as soon as it runs out",
+    "cond": "Lake Island Izumi Goods (see below)",
+    "limit": "No limit on the number of copies distributed",
+    "phone": "Okay (I would appreciate it if you would excuse me from lunchtime)",
+    "extra": [
+     "· Purchase 2 clear files and distribute 1",
+     "· Buy 1 acrylic stand and distribute 1 sheet"
+    ]
+   },
+   "zh-Hant": {
+    "name": "特別紀念券",
+    "when": "6/21 9:00 -一旦用完",
+    "cond": "Lake Island Izumi Goods （見下文）",
+    "limit": "發佈的份數沒有限制",
+    "phone": "好的（如果您能讓我暫時離開午餐時間，我將不勝感激）",
+    "extra": [
+     "·購買2個清除檔案並分發1個",
+     "·購買1個壓克力支架並分發1張"
+    ]
+   },
+   "ko": {
+    "name": "특별 기념 티켓",
+    "when": "6/21 9:00 - 소진되자마자",
+    "cond": "레이크 아일랜드 이즈미 상품 (아래 참조)",
+    "limit": "배포 부수 제한 없음",
+    "phone": "알겠습니다 (점심시간부터 실례하겠습니다)",
+    "extra": [
+     "· 클리어 파일 2개 구매 후 1개 배포",
+     "· 아크릴 스탠드 1개 구입 후 1장 배포"
+    ]
+   }
+  },
+  "c0023980b1": {
+   "key": "86c955e292cd",
+   "en": {
+    "name": "Japan Pass Project Collaboration Special Ticket",
+    "when": "6/20 9:00 - as soon as it runs out",
+    "cond": "Those who purchase more than 1000 yen",
+    "limit": "3 pcs per person",
+    "phone": "Ok (only stock check is OK)"
+   },
+   "zh-Hant": {
+    "name": "JAPAN PASS專案合作特別票",
+    "when": "6/20 9:00 -一旦用完",
+    "cond": "購買金額超過1000日圓者",
+    "limit": "每人3件",
+    "phone": "確定（僅可進行庫存檢查）"
+   },
+   "ko": {
+    "name": "일본 패스 프로젝트 콜라보레이션 스페셜 티켓",
+    "when": "6/20 9:00 - 소진되자마자",
+    "cond": "1000엔 이상 구매하신 분",
+    "limit": "1인당 3개",
+    "phone": "확인 (재고 확인만 가능)"
+   }
+  },
+  "948f50487b": {
+   "key": "55ff90724d17",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "6/23 9:00 - as soon as it runs out",
+    "cond": "Regardless of the amount, sales buyer 1 accounting 1 sheet",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "6/23 9:00 -一旦用完",
+    "cond": "無論金額多少，買方一會計一張",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "6/23 9:00 - 소진되자마자",
+    "cond": "금액에 관계없이 판매 구매자 1 회계 1 시트",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "14e27fc709": {
+   "key": "478f3cbbc389",
+   "en": {
+    "name": "15th Anniversary Ticket",
+    "when": "6/21 AM 8:30 ~ as soon as it runs out",
+    "cond": "1 for purchases of 500 yen or more, 1 for every 3 Regular Tickets",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "15周年門票",
+    "when": "6/21上午8:30〜一旦用完",
+    "cond": "購買500日圓或以上1張，每3張普通票1張",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "15주년 기념 티켓",
+    "when": "6/21 AM 8:30 ~ 소진되자마자",
+    "cond": "500엔 이상 구매 시 1장, 일반 티켓 3장당 1장",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "5941017ae8": {
+   "key": "499f6d5f8cfe",
+   "en": {
+    "name": "2026 Special Anniversary Ticket",
+    "when": "6/20 8:00 - as soon as it runs out",
+    "cond": "Insert into specific items (sweets)",
+    "limit": "No limit on the number of copies distributed",
+    "phone": "Ok (Inventory check only)",
+    "extra": [
+     "* The first-come, first-served number will be random"
+    ]
+   },
+   "zh-Hant": {
+    "name": "2026年特別週年紀念券",
+    "when": "6/20 8:00 -一旦用完",
+    "cond": "插入特定物品（糖果）",
+    "limit": "發佈的份數沒有限制",
+    "phone": "確定（僅限庫存檢查）",
+    "extra": [
+     "*先到先得的號碼將是隨機的"
+    ]
+   },
+   "ko": {
+    "name": "2026 특별 기념일 티켓",
+    "when": "6/20 8:00 - 소진되자마자",
+    "cond": "특정 아이템 (과자) 에 삽입",
+    "limit": "배포 부수 제한 없음",
+    "phone": "확인 (재고 확인만 해당)",
+    "extra": [
+     "* 선착순 인원은 무작위로 배정됩니다."
+    ]
+   }
+  },
+  "dd501d15bf": {
+   "key": "15f07a04b0df",
+   "en": {
+    "name": "Top 10,000 Special Anniversary Ticket",
+    "when": "6/20 9:00 - as soon as it runs out",
+    "cond": "1 for purchases over 1000 yen",
+    "limit": "Up to 1 sheet per person"
+   },
+   "zh-Hant": {
+    "name": "前10,000名特別週年紀念券",
+    "when": "6/20 9:00 -一旦用完",
+    "cond": "1次購買金額超過1000日圓",
+    "limit": "每人最多1張"
+   },
+   "ko": {
+    "name": "최고 10,000 특별 기념일 티켓",
+    "when": "6/20 9:00 - 소진되자마자",
+    "cond": "1000엔 이상 구매 시 1개",
+    "limit": "1인당 최대 1매"
+   }
+  },
+  "eaa5442590": {
+   "key": "14fb4da0d2b5",
+   "en": {
+    "name": "Thank you! 6th Anniversary Special Ticket",
+    "when": "June 20 and 21, 9 o'clock each day to 150 sheets on both days",
+    "cond": "1 ticket with a checkout fee of 1000 yen or more at the sales facility",
+    "limit": "Up to 1 per person (ends as soon as it's gone)",
+    "extra": [
+     "* Even if you pay 2000 yen for one ticket",
+     "Roadside station",
+     "Fujiki no Sato Adogawa \"has been discontinued as of August 3, 2026"
+    ]
+   },
+   "zh-Hant": {
+    "name": "謝謝！ 6周年特別券",
+    "when": "6月20日和21日，每天9點至兩天150張",
+    "cond": "在銷售機構購買1張結帳費用為1000日元或以上的門票",
+    "limit": "每人最多1次（消失後立即結束）",
+    "extra": [
+     "*即使您爲一張票支付2000日元",
+     "「路邊車站",
+     "Fujiki no Sato Adogawa」已於2026年8月3日停產"
+    ]
+   },
+   "ko": {
+    "name": "감사합니다! 6주년 기념 특별 티켓",
+    "when": "6월 20일과 21일, 매일 9시 ~ 양일간 150장",
+    "cond": "판매 시설에서 체크아웃 수수료가 1000엔 이상인 티켓 1장",
+    "limit": "1인당 최대 1개 (사라지는 즉시 종료)",
+    "extra": [
+     "* 한 장에 2000엔을 지불하더라도",
+     "“Roadside Station",
+     "후지키노사토 아도가와 \"는 2026년 8월 3일자로 중단되었습니다."
+    ]
+   }
+  },
+  "0565277b26": {
+   "key": "42342ab38aef",
+   "en": {
+    "name": "20th Anniversary Ticket",
+    "when": "6/16 9:00 - as soon as it runs out",
+    "cond": "1 per Regular Ticket",
+    "limit": "Up to 3 sheets per person"
+   },
+   "zh-Hant": {
+    "name": "20周年門票",
+    "when": "6/16 9:00 -一旦用完",
+    "cond": "每張普通門票1張",
+    "limit": "每人最多3張"
+   },
+   "ko": {
+    "name": "20주년 기념 티켓",
+    "when": "6/16 9:00 - 소진되자마자",
+    "cond": "일반 티켓당 1장",
+    "limit": "1인당 최대 3장"
+   }
+  },
+  "a620a1687d": {
+   "key": "31ff2705639e",
+   "en": {
+    "name": "Toshinchidake Mountain Climbing Commemorative Ticket",
+    "when": "6/14 (Sun) 9:00 AM - Ends as soon as it's gone",
+    "cond": "Those who have climbed the summit of Mt. Toshinchidake",
+    "limit": "1 per person",
+    "extra": [
+     "[Contact] OK"
+    ]
+   },
+   "zh-Hant": {
+    "name": "Toshinchidake登山紀念券",
+    "when": "6月14日（星期日）上午9:00 -結束後立即結束",
+    "cond": "攀登俊一嶽的人",
+    "limit": "每人1次",
+    "extra": [
+     "[Contact] OK"
+    ]
+   },
+   "ko": {
+    "name": "도신치다케 등산 기념 티켓",
+    "when": "6/14 (일) 오전 9시 - 소멸하자마자 종료",
+    "cond": "도신치다케 산 정상에 오르신 분",
+    "limit": "1인당 1개",
+    "extra": [
+     "[문의] 확인"
+    ]
+   }
+  },
+  "0e18defd03": {
+   "key": "204540942ca7",
+   "en": {
+    "name": "Hokkaido Tohoku Jomon Ruins World Heritage List 5th Anniversary Ticket",
+    "when": "6/13 8:00 - as soon as it runs out",
+    "cond": "1 per Regular Ticket",
+    "limit": "3 pcs per person",
+    "extra": [
+     "* Even if you buy 4 sheets, up to 3 sheets will be distributed"
+    ]
+   },
+   "zh-Hant": {
+    "name": "北海道東北縄文遺跡世界遺產名錄五周年紀念門票",
+    "when": "6月13日8:00 -一旦用完",
+    "cond": "每張普通門票1張",
+    "limit": "每人3件",
+    "extra": [
+     "*即使您購買4張，最多也會發放3張"
+    ]
+   },
+   "ko": {
+    "name": "홋카이도 도호쿠 조몬 유적 세계유산 등재 5주년 기념 티켓",
+    "when": "6/13 8:00 - 소진되자마자",
+    "cond": "일반 티켓당 1장",
+    "limit": "1인당 3개",
+    "extra": [
+     "* 4장 구매시에도 3장까지 배부"
+    ]
+   }
+  },
+  "ce9c86133d": {
+   "key": "247a9e25ec1e",
+   "en": {
+    "name": "29th Anniversary Ticket",
+    "when": "6/13 9:00 - as soon as it runs out",
+    "cond": "1 for customers who have purchased more than 500 yen",
+    "limit": "Up to 10 sheets per person"
+   },
+   "zh-Hant": {
+    "name": "29周年門票",
+    "when": "6月13日9:00 -一旦用完",
+    "cond": "1針對購買金額超過500日圓的顧客",
+    "limit": "每人最多10張"
+   },
+   "ko": {
+    "name": "29주년 기념 티켓",
+    "when": "6/13 9:00 - 소진되자마자",
+    "cond": "1 500엔 이상 구매한 고객 대상",
+    "limit": "1인당 최대 10장"
+   }
+  },
+  "9ea1411ca5": {
+   "key": "ab5262a6ee9a",
+   "en": {
+    "name": "Roadside Station 30th Anniversary Ticket",
+    "when": "6/13 9:00 - as soon as it runs out",
+    "cond": "1 for those who purchase goods and meals for 500 yen",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "路邊車站30周年門票",
+    "when": "6月13日9:00 -一旦用完",
+    "cond": "1對於以500日圓購買商品和餐點的人",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "로드사이드 스테이션 30주년 기념 티켓",
+    "when": "6/13 9:00 - 소진되자마자",
+    "cond": "1 500엔으로 상품과 식사를 구매하시는 분들에게",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "8557169f70": {
+   "key": "addf32b92aaf",
+   "en": {
+    "name": "28th Anniversary Ticket",
+    "when": "6/13 10:00 ~ as soon as it runs out",
+    "cond": "1,000 yen 1 sheet for each purchase",
+    "limit": "No limit on the number of copies distributed"
+   },
+   "zh-Hant": {
+    "name": "28周年門票",
+    "when": "6/13 10:00 ~用完即可",
+    "cond": "每次購買1,000日圓1張",
+    "limit": "發佈的份數沒有限制"
+   },
+   "ko": {
+    "name": "28주년 기념 티켓",
+    "when": "6/13 10:00 ~ 소진되자마자",
+    "cond": "1,000엔 구매 시 1장",
+    "limit": "배포 부수 제한 없음"
+   }
+  },
+  "3debccfcf3": {
+   "key": "4aea1ae6e8ae",
+   "en": {
+    "name": "National Route 175 Nishiwakita Bypass Entire Line Opening Commemorative Ticket",
+    "when": "6/13 9:00 - as soon as it runs out",
+    "cond": "Buy more than 1000 yen at the specialty sales corner and get 1 ticket",
+    "limit": "Up to 10 sheets per person",
+    "phone": "NG (Only inquiries about availability are allowed)"
+   },
+   "zh-Hant": {
+    "name": "國道175號西脇北旁路全線開通紀念券",
+    "when": "6月13日9:00 -一旦用完",
+    "cond": "在專賣店購買超過1000日圓即可獲得1張門票",
+    "limit": "每人最多10張",
+    "phone": "NG （僅允許詢問可訂狀況）"
+   },
+   "ko": {
+    "name": "국도 175호선 니시와키타 우회 전선 개통 기념 티켓",
+    "when": "6/13 9:00 - 소진되자마자",
+    "cond": "특산품 판매 코너에서 1000엔 이상 구매 시 티켓 1장 증정",
+    "limit": "1인당 최대 10장",
+    "phone": "NG (예약 가능 여부에 대한 문의만 가능합니다)"
    }
   }
  }
